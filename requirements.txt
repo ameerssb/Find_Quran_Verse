@@ -1,0 +1,5 @@
+Django
+whitenoise
+pandas
+mysql.connector
+SpeechRecognition
