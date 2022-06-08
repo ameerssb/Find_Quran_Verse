@@ -4,42 +4,139 @@ from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
 import mysql.connector
 import speech_recognition as sr
+from pydub import AudioSegment
+import requests
 pd.options.mode.chained_assignment = None
 
 def index(request):
+    print('Request for index page received')
+    return render(request, 'hello_azure/home.html')
+
+@csrf_exempt
+def recorder(request):
     print('Request for index page received')
     return render(request, 'hello_azure/index.html')
 
 @csrf_exempt
 def hello(req):
-    Key = "SAnis"
     Aud = None
     if req.method == 'POST':
         try:
             Aud = req.FILES['file']
         except ValueError:
             pass
-    if Key != None:
         if Aud != None:
-            translate = Translating(Aud)
-            response = Processing(translate)
-#            response = requests.get('https://quranversefinder.azurewebsites.net/api/quran',params={'name': File})
-
-            # Inspect some attributes of the `requests` repository
-            Verse = response
-#            repository = Verse['items'][0]
-#            print(f'Repository name: {repository["name"]}')  # Python 3.6+
-#            print(f'Repository description: {repository["description"]}')
-#            Verse = Processing(File)
-            return HttpResponse(f"{Verse}")
+            filename = Aud.name
+            point = Changin2Wav(filename)
+            if point == 0:
+                return HttpResponse("Can't Process this type of file")
+            try:
+                if point == 2:
+                    AudioSegment.from_file(Aud, 'mp3')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 3:
+                    AudioSegment.from_file(Aud, 'mp4')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 4:
+                    AudioSegment.from_file(Aud, 'm4a')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 5:
+                    AudioSegment.from_file(Aud, 'wma')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 6:
+                    AudioSegment.from_file(Aud, 'flac')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 7:
+                    AudioSegment.from_file(Aud, 'aac')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 8:
+                    AudioSegment.from_file(Aud, 'ogg')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 9:
+                    AudioSegment.from_file(Aud, 'raw')
+                    AudioSegment.export(Aud, format='wav')
+            except:
+                return HttpResponse("An error occured while reading this file, please check this file or upload another")
+    #            file = Translating(Aud)
+    #            Verse = Processing(file)
+#            fs = FileSystemStorage()
+#            filename = fs.save(img_file.name, img_file)
+#            path = fs.path(filename)
+            url = "https://quranfind.azurewebsites.net/api/quran"
+            files=[
+            ('file',(filename,Aud.open(),'audio/wav'))
+            ]
+            headers = {}
+            response = requests.request("POST", url, headers=headers, files=files)
+            if response.status_code == 200:
+                Verse = response.text
+                return HttpResponse(Verse)
+            elif response.status_code == 500:
+                return HttpResponse( "An Error occured while Processing Request", status_code=500)
+            else:
+                return HttpResponse("an error occured", status_code=400)
         else:
-#            File = Translating("Quran/output.wav")
-#            Verse = Processing(File)
-            return f"{Aud}"
+            return HttpResponse("This File is corrupted", status_code=500)
     else:
         return HttpResponse(
-             "No Such WebPage",
-        )
+         "No Such WebPage",
+         status_code=404
+    )
+
+@csrf_exempt
+def translator(req):
+    if req.method == 'POST':
+        try:
+            arabic = req.POST['arabic']
+        except ValueError:
+            pass
+        if arabic != None:
+    #            file = Translating(Aud)
+    #            Verse = Processing(file)
+            url = "https://quranfind.azurewebsites.net/api/quran"
+            payload={'arabic_text': arabic}
+            response = requests.request("GET", url, params=payload)
+            Verse = response.text
+            return HttpResponse(Verse)
+        else:
+            return HttpResponse("No Arabic Text Given")
+    else:
+        return HttpResponse(
+         "No Such WebPage",
+    )
+
+
+def Changin2Wav(filename):
+    point = 0
+    if filename.lower().endswith('wav'):
+        point = 1
+        return point
+    elif filename.lower().endswith('mp3'):
+        point = 2
+        return point
+    elif filename.lower().endswith('mp4'):
+        point = 3
+        return point
+    elif filename.lower().endswith('m4a'):
+        point = 4
+        return point
+    elif filename.lower().endswith('wma'):
+        point = 5
+        return point
+    elif filename.lower().endswith('flac'):
+        point = 6
+        return point
+    elif filename.lower().endswith('aac'):
+        point = 7
+        return point
+    elif filename.lower().endswith('ogg'):
+        point = 8
+        return point
+    elif filename.lower().endswith('raw'):
+        point = 9
+        return point
+    else:
+        return point
 
 def Translating(AUDIO_FILE):
     r = sr.Recognizer()

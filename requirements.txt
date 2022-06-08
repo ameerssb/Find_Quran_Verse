@@ -3,3 +3,5 @@ whitenoise
 pandas
 mysql.connector
 SpeechRecognition
+requests
+pydub
