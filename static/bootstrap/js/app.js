@@ -52,8 +52,6 @@ function startRecording() {
 		*/
 		audioContext = new AudioContext();
 
-		//update the format 
-//		document.getElementById("formats").innerHTML="Format: 1 channel pcm @ "+audioContext.sampleRate/1000+"kHz"
 
 		/*  assign to gumStream for later use  */
 		gumStream = stream;
@@ -129,39 +127,59 @@ function createDownloadLink(blob) {
 	au.controls = true;
 	au.src = url;
 
-	//save to disk link
-	link.href = url;
-	link.download = filename+".wav"; //download forces the browser to donwload the file using the  filename
-	link.innerHTML = "Save to disk";
-
 	//add the new audio element to li
 	li.appendChild(au);
-	
-	//add the filename to the li
-	li.appendChild(document.createTextNode(filename+".wav "))
+		
+	filename = filename + ".wav";
+	//upload link
+	var upload = document.createElement('a');
+	upload.href="#";
+	upload.innerHTML = "Find Verse Again";
+		  var form=new FormData();
+		  form.append("file",blob, filename);
+		  $.ajax({
+			url: "/hello",
+			method: "POST",
+			processData: false,
+			mimeType: "multipart/form-data",
+			contentType: false,
+			data: form,
+			statusCode: {
+			  404: function(responseObject, textStatus, jqXHR) {
+				  alert('not found');
+				  // No content found (404)
+				  // This code will be executed if the server returns a 404 response
+			  },
+			  400: function(responseObject, textStatus, jqXHR) {
+				  alert('Bad Request');
+				  // No content found (404)
+				  // This code will be executed if the server returns a 404 response
+			  },
+			  403: function(responseObject, textStatus, jqXHR) {
+				  alert('Forbidden');
+				  // No content found (404)
+				  // This code will be executed if the server returns a 404 response
+			  },
+			  500: function(responseObject, textStatus, jqXHR) {
+				  alert('Server Error');
+				  // No content found (404)
+				  // This code will be executed if the server returns a 404 response
+			  },
+			  503: function(responseObject, textStatus, errorThrown) {
+				  alert("unavailable");
+				  // Service Unavailable (503)
+				  // This code will be executed if the server returns a 503 response
+			  }},
+			  success: function (data, statusCode){
+				  alert(data)
+			  },
+			  async: false,
+			  cache: false,
+			  timeout: 100000           
+		  });
+	li.appendChild(document.createTextNode (" "))//add a space in between
+	li.appendChild(upload)//add the upload link to li
 
-	//add the save to disk link to li
-	li.appendChild(link);
-
-	var form = new FormData();
-	form.append("file", blob, "");
-	
-	var settings = {
-	  "url": "http://127.0.0.1:8000/hello",
-	  "method": "POST",
-	  "timeout": 0,
-	  "headers": {
-		"Cookie": "csrftoken=W9ucdwiirFv4TJLqs2VWtpVTVbVcrim2m6mwAhLifS0YywYsx9SZXODvFM7NRCCP"
-	  },
-	  "processData": false,
-	  "mimeType": "multipart/form-data",
-	  "contentType": false,
-	  "data": form
-	};
-	
-	$.ajax(settings).done(function (response) {
-//	  console.log(response);
-	});
-
-
+	//add the li element to the ol
+	recordingsList.appendChild(li);
 }

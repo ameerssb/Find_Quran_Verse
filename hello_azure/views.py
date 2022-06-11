@@ -1,3 +1,4 @@
+from os import stat
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -6,6 +7,7 @@ import mysql.connector
 import speech_recognition as sr
 from pydub import AudioSegment
 import requests
+import json
 pd.options.mode.chained_assignment = None
 
 def index(request):
@@ -56,7 +58,8 @@ def hello(req):
                     AudioSegment.from_file(Aud, 'raw')
                     AudioSegment.export(Aud, format='wav')
             except:
-                return HttpResponse("An error occured while reading this file, please check this file or upload another")
+                content = {"An error occured while reading this file, please check this file or upload another"}
+                return HttpResponse(content, status=500)
     #            file = Translating(Aud)
     #            Verse = Processing(file)
 #            fs = FileSystemStorage()
@@ -69,14 +72,14 @@ def hello(req):
             headers = {}
             response = requests.request("POST", url, headers=headers, files=files)
             if response.status_code == 200:
-                Verse = response.text
-                return HttpResponse(Verse)
+                json_object = json.dumps(response.json(encoding='utf-8'), ensure_ascii=False)
+                return HttpResponse(json_object, status = 200)
             elif response.status_code == 500:
-                return HttpResponse( "An Error occured while Processing Request", status_code=500)
+                return HttpResponse( "An Error occured while Processing Request")
             else:
-                return HttpResponse("an error occured", status_code=400)
+                return HttpResponse("an error occured", status=400)
         else:
-            return HttpResponse("This File is corrupted", status_code=500)
+            return HttpResponse("This File is corrupted", status=500)
     else:
         return HttpResponse(
          "No Such WebPage",
@@ -95,9 +98,12 @@ def translator(req):
     #            Verse = Processing(file)
             url = "https://quranfind.azurewebsites.net/api/quran"
             payload={'arabic_text': arabic}
-            response = requests.request("GET", url, params=payload)
-            Verse = response.text
-            return HttpResponse(Verse)
+            try:
+                response = requests.request("GET", url, params=payload)
+                json_object = json.dumps(response.json(encoding='utf-8'), ensure_ascii=False)
+                return HttpResponse(json_object, status = 200)
+            except:
+                return HttpResponse("error")
         else:
             return HttpResponse("No Arabic Text Given")
     else:
