@@ -60,8 +60,8 @@ def hello(req):
             except:
                 content = {"An error occured while reading this file, please check this file or upload another"}
                 return HttpResponse(content, status=500)
-    #            file = Translating(Aud)
-    #            Verse = Processing(file)
+#            file = Translating(Aud)
+#            response = Processing(file)
 #            fs = FileSystemStorage()
 #            filename = fs.save(img_file.name, img_file)
 #            path = fs.path(filename)
@@ -72,9 +72,9 @@ def hello(req):
             headers = {}
             response = requests.request("POST", url, headers=headers, files=files)
             if response.status_code == 200:
-                json_object = json.dumps(response.json(encoding='utf-8'), ensure_ascii=False)
+                json_object = json.dumps(response.json(), ensure_ascii=False)
                 return HttpResponse(json_object, status = 200)
-            elif response.status_code == 500:
+            if response.status_code == 500:
                 return HttpResponse( "An Error occured while Processing Request")
             else:
                 return HttpResponse("an error occured", status=400)
@@ -83,7 +83,7 @@ def hello(req):
     else:
         return HttpResponse(
          "No Such WebPage",
-         status_code=404
+         status=404
     )
 
 @csrf_exempt
@@ -100,7 +100,7 @@ def translator(req):
             payload={'arabic_text': arabic}
             try:
                 response = requests.request("GET", url, params=payload)
-                json_object = json.dumps(response.json(encoding='utf-8'), ensure_ascii=False)
+                json_object = json.dumps(response.json(), encoding='utf-8', ensure_ascii=False)
                 return HttpResponse(json_object, status = 200)
             except:
                 return HttpResponse("error")
@@ -211,7 +211,7 @@ def Processing(s_result):
             string[0].reset_index(inplace = True)
             strin = pd.DataFrame(string[0])
             answer = strin
-            verses = answer.to_numpy()
+            verses = answer.to_json(force_ascii=False)
             return verses
             for i in range(len(answer)):
                 if answer['text'][i] in answer['text'][0]:
@@ -326,7 +326,7 @@ def Processing(s_result):
                 #        print(all_data['Word Count'][0])
                 all_data = all_data.sort_values(['Number of Words in other','Score','Word Count','text'], ascending = True)
                 answer = all_data.drop(['Suggestion','Number of Words in other','Word Count','Score'], axis = 1)
-                verses = answer.to_numpy()
+                verses = answer.to_json(force_ascii=False)
                 return verses
                 for i in range(len(answer)):
                     if answer['text'][i] in answer['text'][0]:
