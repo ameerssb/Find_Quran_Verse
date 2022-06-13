@@ -18,6 +18,8 @@ recordButton.addEventListener("click", startRecording);
 stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
 
+
+
 function startRecording() {
 	console.log("recordButton clicked");
 
@@ -97,7 +99,7 @@ function stopRecording() {
 
 	//disable the stop button, enable the record too allow for new recordings
 	stopButton.disabled = true;
-	recordButton.disabled = false;
+	recordButton.disabled = true;
 	pauseButton.disabled = true;
 
 	//reset button just in case the recording is stopped while paused
@@ -112,6 +114,7 @@ function stopRecording() {
 	//create the wav blob and pass it on to createDownloadLink
 	rec.exportWAV(createDownloadLink);
 }
+
 
 function createDownloadLink(blob) {
 	
@@ -132,10 +135,21 @@ function createDownloadLink(blob) {
 		
 	filename = filename + ".wav";
 	//upload link
-	var upload = document.createElement('a');
-	upload.href="#";
-	upload.innerHTML = "Find Verse Again";
-		  var form=new FormData();
+//	var upload = document.createElement('a');
+//	upload.href="#";
+//	upload.onclick(search(blob,filename));
+//	upload.innerHTML = "Find Verse Again";
+	search(blob, filename);
+	recordButton.disabled = false;	
+	li.appendChild(document.createTextNode (" "))//add a space in between
+//	li.appendChild(upload)//add the upload link to li
+
+	//add the li element to the ol
+	recordingsList.appendChild(li);
+}
+
+function search(blob, filename){
+	var form=new FormData();
 		  form.append("file",blob, filename);
 		  $.ajax({
 			url: "/hello",
@@ -145,41 +159,139 @@ function createDownloadLink(blob) {
 			contentType: false,
 			data: form,
 			statusCode: {
-			  404: function(responseObject, textStatus, jqXHR) {
-				  alert('not found');
-				  // No content found (404)
-				  // This code will be executed if the server returns a 404 response
-			  },
-			  400: function(responseObject, textStatus, jqXHR) {
-				  alert('Bad Request');
-				  // No content found (404)
-				  // This code will be executed if the server returns a 404 response
-			  },
-			  403: function(responseObject, textStatus, jqXHR) {
-				  alert('Forbidden');
-				  // No content found (404)
-				  // This code will be executed if the server returns a 404 response
-			  },
-			  500: function(responseObject, textStatus, jqXHR) {
-				  alert('Server Error');
-				  // No content found (404)
-				  // This code will be executed if the server returns a 404 response
-			  },
-			  503: function(responseObject, textStatus, errorThrown) {
-				  alert("unavailable");
-				  // Service Unavailable (503)
-				  // This code will be executed if the server returns a 503 response
-			  }},
-			  success: function (data, statusCode){
-				  alert(data)
-			  },
+				404: function(responseObject, textStatus, jqXHR) {
+					alert('not found '+textStatus);
+					// No content found (404)
+					// This code will be executed if the server returns a 404 response
+				},
+				400: function(responseObject, textStatus, jqXHR) {
+					alert('Bad Request '+textStatus);
+					// No content found (404)
+					// This code will be executed if the server returns a 404 response
+				},
+				403: function(responseObject, textStatus, jqXHR) {
+					alert('Forbidden '+textStatus);
+					// No content found (404)
+					// This code will be executed if the server returns a 404 response
+				},
+				500: function(responseObject, textStatus, jqXHR) {
+					alert('Server Error '+textStatus);
+					// No content found (404)
+					// This code will be executed if the server returns a 404 response
+				},
+				503: function(responseObject, textStatus, errorThrown) {
+					alert("unavailable "+textStatus);
+					// Service Unavailable (503)
+					// This code will be executed if the server returns a 503 response
+				}},
+				success: function (data, statusCode){
+					var x = JSON.parse(data)
+					alert(`Sura Chapter: ${x.sura[0]} \nSura Name: ${x.Sura_Name[0]} \nVerse Number: ${x.aya[0]} \nArabic Text: ${x.text[0]}`)
+			},
 			  async: false,
 			  cache: false,
 			  timeout: 100000           
 		  });
-	li.appendChild(document.createTextNode (" "))//add a space in between
-	li.appendChild(upload)//add the upload link to li
-
-	//add the li element to the ol
-	recordingsList.appendChild(li);
 }
+
+function searchfind (){
+	var button = document.getElementById("audiobutton");
+	button.disabled = true; 
+    var form = new FormData();
+    var files = document.getElementById("file").files;
+    var file = files[0];
+    form.append("file", file, file.name);
+                $.ajax({
+                url: "/hello",
+                method: "POST",
+                processData: false,
+                mimeType: "multipart/form-data",
+                contentType: false,
+                data: form,
+				statusCode: {
+					404: function(responseObject, textStatus, jqXHR) {
+						alert('not found '+textStatus);
+						// No content found (404)
+						// This code will be executed if the server returns a 404 response
+					},
+					400: function(responseObject, textStatus, jqXHR) {
+						alert('Bad Request '+textStatus);
+						// No content found (404)
+						// This code will be executed if the server returns a 404 response
+					},
+					403: function(responseObject, textStatus, jqXHR) {
+						alert('Forbidden '+textStatus);
+						// No content found (404)
+						// This code will be executed if the server returns a 404 response
+					},
+					500: function(responseObject, textStatus, jqXHR) {
+						alert('Server Error '+textStatus);
+						// No content found (404)
+						// This code will be executed if the server returns a 404 response
+					},
+					503: function(responseObject, textStatus, errorThrown) {
+						alert("unavailable "+textStatus);
+						// Service Unavailable (503)
+						// This code will be executed if the server returns a 503 response
+					}},
+					success: function (data, statusCode){
+						var x = JSON.parse(data)
+						alert(`Sura Chapter: ${x.sura[0]} \nSura Name: ${x.Sura_Name[0]} \nVerse Number: ${x.aya[0]} \nArabic Text: ${x.text[0]}`)
+					},
+                async: false,
+                cache: false,
+                timeout: 30000
+			});
+		button.disabled = false; 
+    }
+
+
+function searchfindText (){
+		var button = document.getElementById("textbutton");
+		button.disabled = true; 
+		var form = new FormData();
+		form.append("arabic", $('#Text').val());
+					$.ajax({
+					url: "/translator",
+					method: "POST",
+					processData: false,
+					mimeType: "multipart/form-data",
+					contentType: false,
+					data: form,
+					statusCode: {
+					404: function(responseObject, textStatus, jqXHR) {
+						alert('not found '+textStatus);
+						// No content found (404)
+						// This code will be executed if the server returns a 404 response
+					},
+					400: function(responseObject, textStatus, jqXHR) {
+						alert('Bad Request '+textStatus);
+						// No content found (404)
+						// This code will be executed if the server returns a 404 response
+					},
+					403: function(responseObject, textStatus, jqXHR) {
+						alert('Forbidden '+textStatus);
+						// No content found (404)
+						// This code will be executed if the server returns a 404 response
+					},
+					500: function(responseObject, textStatus, jqXHR) {
+						alert('Server Error '+textStatus);
+						// No content found (404)
+						// This code will be executed if the server returns a 404 response
+					},
+					503: function(responseObject, textStatus, errorThrown) {
+						alert("unavailable "+textStatus);
+						// Service Unavailable (503)
+						// This code will be executed if the server returns a 503 response
+					}},
+					success: function (data, statusCode){
+						var x = JSON.parse(data)
+						alert(`Sura Chapter: ${x.sura[0]} \nSura Name: ${x.Sura_Name[0]} \nVerse Number: ${x.aya[0]} \nArabic Text: ${x.text[0]}`)
+					},
+					async: false,
+					cache: false,
+					timeout: 100000           
+				});
+			button.disabled = false; 
+		}
+	

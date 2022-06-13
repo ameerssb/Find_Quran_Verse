@@ -70,14 +70,17 @@ def hello(req):
             ('file',(filename,Aud.open(),'audio/wav'))
             ]
             headers = {}
-            response = requests.request("POST", url, headers=headers, files=files)
-            if response.status_code == 200:
-                json_object = json.dumps(response.json(), ensure_ascii=False)
-                return HttpResponse(json_object, status = 200)
-            if response.status_code == 500:
-                return HttpResponse( "An Error occured while Processing Request")
-            else:
-                return HttpResponse("an error occured", status=400)
+            try:
+                response = requests.request("POST", url, headers=headers, files=files, timeout=20)
+                if response.status_code == 200:
+                    json_object = json.dumps(response.json(), ensure_ascii=False)
+                    return HttpResponse(json_object, status = 200)
+                if response.status_code == 500:
+                    return HttpResponse( "An Error occured while Processing Request", status=500)
+                else:
+                    return HttpResponse("an error occured", status=400)
+            except requests.Timeout:
+                    return HttpResponse( "An Error occured while Processing Request", status=500)
         else:
             return HttpResponse("This File is corrupted", status=500)
     else:
@@ -99,16 +102,22 @@ def translator(req):
             url = "https://quranfind.azurewebsites.net/api/quran"
             payload={'arabic_text': arabic}
             try:
-                response = requests.request("GET", url, params=payload)
-                json_object = json.dumps(response.json(), encoding='utf-8', ensure_ascii=False)
-                return HttpResponse(json_object, status = 200)
-            except:
-                return HttpResponse("error")
+                response = requests.request("GET", url, params=payload, timeout=20)
+                if response.status_code == 200:
+                    json_object = json.dumps(response.json(), ensure_ascii=False)
+                    return HttpResponse(json_object, status = 200)
+                if response.status_code == 500:
+                    return HttpResponse( "An Error occured while Processing Request", status=500)
+                else:
+                    return HttpResponse("an error occured", status=400)
+            except requests.Timeout:
+                    return HttpResponse( "An Error occured while Processing Request", status=500)
         else:
-            return HttpResponse("No Arabic Text Given")
+            return HttpResponse("This File is corrupted", status=500)
     else:
         return HttpResponse(
          "No Such WebPage",
+         status=404
     )
 
 
