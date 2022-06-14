@@ -20,6 +20,8 @@ var cancelRecordingButton = document.getElementsByClassName("cancel-recording-bu
 var elapsedTimeTag = document.getElementsByClassName("elapsed-time")[0];
 var microphoneButton = document.getElementsByClassName("start-recording-button")[0];
 var spinner = document.getElementsByClassName("spinner-border")[0];
+var arabicAlphabetDigits = /[\u0600-\u06FF]/;
+var AlphabetDigits = /[a-zA-Z0-9]/;
 //var closeBrowserNotSupportedBoxButton = document.getElementsByClassName("close-browser-not-supported-box")[0];
 //var overlay = document.getElementsByClassName("overlay")[0];
 //var audioElement = document.getElementsByClassName("audio-element")[0];
@@ -263,14 +265,14 @@ function search(blob, filename){
 						test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 					}
 					alert(test);
-		},
-			  async: false,
-			  cache: false,
-			  timeout: 100000           
-		  });
-		  microphoneButton.classList.remove("visually-hidden");
+					microphoneButton.classList.remove("visually-hidden");
 
-		  spinner.classList.add("visually-hidden");	  
+					spinner.classList.add("visually-hidden");	  		  
+			},
+			  async: true,
+			  cache: false,
+			  timeout: 30000           
+		  });
 }
 
 function searchfind (){
@@ -332,25 +334,66 @@ function searchfind (){
 								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 							}
 							alert(test);	
+							textspin.classList.add("visually-hidden");
+							//		button.innerText = "Find Verse"; 
+							button.disabled = false; 										
 						},
-					async: false,
+					async: true,
 					cache: false,
 					timeout: 30000
 				});
-			textspin.classList.add("visually-hidden");
-	//		button.innerText = "Find Verse"; 
-			button.disabled = false; 
 		}	
     }
 
+$("#Text").on("keypress", function (event) {
+	var invalidText = document.getElementById("invalidtext");
+	var invalid = document.getElementById("Text");
+	var key = String.fromCharCode(event.which);
+
+   if (arabicAlphabetDigits.test(key) && arabicAlphabetDigits.test(invalid.value)) {
+		if (!(invalidText.classList.contains("visually-hidden"))){
+			invalidText.classList.add("visually-hidden");
+		}
+	}
+	else if (arabicAlphabetDigits.test(key)) {
+		if (!(invalidText.classList.contains("visually-hidden"))){
+			invalidText.classList.add("visually-hidden");
+		}
+	}
+	else if(AlphabetDigits.test(invalid.value) == true){
+		invalidText.classList.remove("visually-hidden");
+	}
+	else if(key==' '){
+		if (!(invalidText.classList.contains("visually-hidden"))){
+			invalidText.classList.add("visually-hidden");
+		}
+	}
+	else{
+		invalidText.classList.remove("visually-hidden");
+	}
+   });
+
+   $('#arabicCheck').on("paste", function (event) {
+	var invalidText = document.getElementById("invalidtext");
+	var invalid = document.getElementById("Text");
+	var key = String.fromCharCode(event.which);
+		if (arabicAlphabetDigits.test(invalid.value)) {
+			if (!(invalidText.classList.contains("visually-hidden"))){
+				invalidText.classList.add("visually-hidden");
+			}
+		}else{
+			invalidText.classList.remove("visually-hidden");
+		}
+
+	});
 
 function searchfindText (){
 		var invalid = document.getElementById("Text");
 		var invalidText = document.getElementById("invalidtext");
 		if (!(invalidText.classList.contains("visually-hidden"))){
 			invalidText.classList.add("visually-hidden");
-		}
-		if(invalid.value.length == 0){
+		}	
+		if(invalid.value.length == 0 || AlphabetDigits.test(invalid.value) == true){
 			invalidText.classList.remove("visually-hidden");
 		}
 		else if(invalidText.classList.contains("visually-hidden")) {
@@ -401,14 +444,15 @@ function searchfindText (){
 								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 							}
 							alert(test);	
+							textspin.classList.add("visually-hidden");
+//							button.innerText = "Find Verse"; 
+							button.disabled = false;
+						
 						},
-						async: false,
+						async: true,
 						cache: false,
-						timeout: 100000           
+						timeout: 30000           
 					});
-					textspin.classList.add("visually-hidden");
-	//				button.innerText = "Find Verse"; 
-					button.disabled = false;
 				} 		
 		}
 
