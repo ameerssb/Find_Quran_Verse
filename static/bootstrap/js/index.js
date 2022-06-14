@@ -264,15 +264,16 @@ function search(blob, filename){
 					for (var i = 0; i<Object.keys(x.sura).length; i++){
 						test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 					}
-					window.alert(test);	
+					window.alert(test);		  		  
+				},
+				complete: function (){
 					microphoneButton.classList.remove("visually-hidden");
 
-					spinner.classList.add("visually-hidden");	  		  
-			},
-			  async: true,
-			  cache: false,
-			  timeout: 30000           
-		  });
+					spinner.classList.add("visually-hidden");				},
+			  	async: true,
+			  	cache: false,
+			  	timeout: 30000           
+		  })
 }
 
 function searchfind (){
@@ -334,9 +335,11 @@ function searchfind (){
 								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 							}
 							window.alert(test);	
+						},
+						complete: function (){
 							textspin.classList.add("visually-hidden");
-							//		button.innerText = "Find Verse"; 
-							button.disabled = false; 										
+							//button.innerText = "Find Verse"; 
+							button.disabled = false;								
 						},
 					async: true,
 					cache: false,
@@ -443,18 +446,19 @@ function searchfindText (){
 							for (var i = 0; i<Object.keys(x.sura).length; i++){
 								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 							}
-							window.alert(test);	
+							window.alert(test);							
+						},
+						complete: function (){
 							textspin.classList.add("visually-hidden");
-//							button.innerText = "Find Verse"; 
-							button.disabled = false;
-						
+							//button.innerText = "Find Verse"; 
+							button.disabled = false;								
 						},
 						async: true,
 						cache: false,
 						timeout: 30000           
 					});
-				} 		
 		}
+	}
 
 
 /** Computes the elapsed recording time since the moment the function is called in the format h:m:s*/
