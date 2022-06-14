@@ -234,27 +234,27 @@ function search(blob, filename){
 			data: form,
 			statusCode: {
 				404: function(responseObject, textStatus, jqXHR) {
-					window.alert('not found '+textStatus);
+					alert('not found '+textStatus);
 					// No content found (404)
 					// This code will be executed if the server returns a 404 response
 				},
 				400: function(responseObject, textStatus, jqXHR) {
-					window.alert('Bad Request '+textStatus);
+					alert('Bad Request '+textStatus);
 					// No content found (404)
 					// This code will be executed if the server returns a 404 response
 				},
 				403: function(responseObject, textStatus, jqXHR) {
-					window.alert('Forbidden '+textStatus);
+					alert('Forbidden '+textStatus);
 					// No content found (404)
 					// This code will be executed if the server returns a 404 response
 				},
 				500: function(responseObject, textStatus, jqXHR) {
-					window.alert('Server Error '+textStatus);
+					alert('Server Error '+textStatus);
 					// No content found (404)
 					// This code will be executed if the server returns a 404 response
 				},
 				503: function(responseObject, textStatus, errorThrown) {
-					window.alert("unavailable "+textStatus);
+					alert("unavailable "+textStatus);
 					// Service Unavailable (503)
 					// This code will be executed if the server returns a 503 response
 				}},
@@ -304,27 +304,27 @@ function searchfind (){
 					data: form,
 					statusCode: {
 						404: function(responseObject, textStatus, jqXHR) {
-							window.alert('not found '+textStatus);
+							alert('not found '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						400: function(responseObject, textStatus, jqXHR) {
-							window.alert('Bad Request '+textStatus);
+							alert('Bad Request '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						403: function(responseObject, textStatus, jqXHR) {
-							window.alert('Forbidden '+textStatus);
+							alert('Forbidden '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						500: function(responseObject, textStatus, jqXHR) {
-							window.alert('Server Error '+textStatus);
+							alert('Server Error '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						503: function(responseObject, textStatus, errorThrown) {
-							window.alert("unavailable "+textStatus);
+							alert("unavailable "+textStatus);
 							// Service Unavailable (503)
 							// This code will be executed if the server returns a 503 response
 						}},
@@ -416,27 +416,27 @@ function searchfindText (){
 						data: form,
 						statusCode: {
 						404: function(responseObject, textStatus, jqXHR) {
-							window.alert('not found '+textStatus);
+							alert('not found '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						400: function(responseObject, textStatus, jqXHR) {
-							window.alert('Bad Request '+textStatus);
+							alert('Bad Request '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						403: function(responseObject, textStatus, jqXHR) {
-							window.alert('Forbidden '+textStatus);
+							alert('Forbidden '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						500: function(responseObject, textStatus, jqXHR) {
-							window.alert('Server Error '+textStatus);
+							alert('Server Error '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						503: function(responseObject, textStatus, errorThrown) {
-							window.alert("unavailable "+textStatus);
+							alert("unavailable "+textStatus);
 							// Service Unavailable (503)
 							// This code will be executed if the server returns a 503 response
 						}},
