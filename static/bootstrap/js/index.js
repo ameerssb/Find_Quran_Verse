@@ -264,7 +264,7 @@ function search(blob, filename){
 					for (var i = 0; i<Object.keys(x.sura).length; i++){
 						test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 					}
-					alert(test);
+					window.alert(test);	
 					microphoneButton.classList.remove("visually-hidden");
 
 					spinner.classList.add("visually-hidden");	  		  
@@ -333,7 +333,7 @@ function searchfind (){
 							for (var i = 0; i<Object.keys(x.sura).length; i++){
 								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 							}
-							alert(test);	
+							window.alert(test);	
 							textspin.classList.add("visually-hidden");
 							//		button.innerText = "Find Verse"; 
 							button.disabled = false; 										
@@ -443,7 +443,7 @@ function searchfindText (){
 							for (var i = 0; i<Object.keys(x.sura).length; i++){
 								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 							}
-							alert(test);	
+							window.alert(test);	
 							textspin.classList.add("visually-hidden");
 //							button.innerText = "Find Verse"; 
 							button.disabled = false;
