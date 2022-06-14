@@ -258,22 +258,23 @@ function search(blob, filename){
 					// Service Unavailable (503)
 					// This code will be executed if the server returns a 503 response
 				}},
-				success: function (data, statusCode){
-					const x = JSON.parse(data)
-					let test = '';
-					for (var i = 0; i<Object.keys(x.sura).length; i++){
-						test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
-					}
-					window.alert(test);		  		  
-				},
-				complete: function (){
-					microphoneButton.classList.remove("visually-hidden");
-
-					spinner.classList.add("visually-hidden");				},
 			  	async: true,
 			  	cache: false,
 			  	timeout: 30000           
 		  })
+		  .done(function(data){
+			const x = JSON.parse(data)
+			let test = '';
+			for (var i = 0; i<Object.keys(x.sura).length; i++){
+				test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
+			}
+			window.alert(test);	
+		})
+		.always(function(jqXHR, textStatus){
+			microphoneButton.classList.remove("visually-hidden");
+
+			spinner.classList.add("visually-hidden");
+		})
 }
 
 function searchfind (){
@@ -328,23 +329,24 @@ function searchfind (){
 							// Service Unavailable (503)
 							// This code will be executed if the server returns a 503 response
 						}},
-						success: function (data, statusCode){
-							const x = JSON.parse(data)
-							let test = '';
-							for (var i = 0; i<Object.keys(x.sura).length; i++){
-								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
-							}
-							window.alert(test);	
-						},
-						complete: function (){
-							textspin.classList.add("visually-hidden");
-							//button.innerText = "Find Verse"; 
-							button.disabled = false;								
-						},
 					async: true,
 					cache: false,
 					timeout: 30000
-				});
+				})
+				.done(function(data){
+						const x = JSON.parse(data)
+						let test = '';
+						for (var i = 0; i<Object.keys(x.sura).length; i++){
+							test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
+						}
+						window.alert(test);	
+				})
+				.always(function(jqXHR, textStatus){
+					textspin.classList.add("visually-hidden");
+					//button.innerText = "Find Verse"; 
+					button.disabled = false;								
+
+			})
 		}	
     }
 
@@ -440,23 +442,23 @@ function searchfindText (){
 							// Service Unavailable (503)
 							// This code will be executed if the server returns a 503 response
 						}},
-						success: function (data, statusCode){
-							const x = JSON.parse(data)
-							let test = '';
-							for (var i = 0; i<Object.keys(x.sura).length; i++){
-								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
-							}
-							window.alert(test);							
-						},
-						complete: function (){
-							textspin.classList.add("visually-hidden");
-							//button.innerText = "Find Verse"; 
-							button.disabled = false;								
-						},
 						async: true,
 						cache: false,
 						timeout: 30000           
-					});
+					})
+					.done(function(data){
+						const x = JSON.parse(data)
+						let test = '';
+						for (var i = 0; i<Object.keys(x.sura).length; i++){
+							test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
+						}
+						window.alert(test);	
+					})
+					.always(function(jqXHR, textStatus){
+						textspin.classList.add("visually-hidden");
+						//button.innerText = "Find Verse"; 
+						button.disabled = false;								
+					})			
 		}
 	}
 
