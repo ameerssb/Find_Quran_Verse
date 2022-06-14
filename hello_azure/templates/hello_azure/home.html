@@ -72,6 +72,9 @@
                   <label for="name" class="form-label fw-bold fs-5">Please Tap on the Mic to Start Reciting</label>
                   <div class="mx-auto my-5 align-items-center justify-content-center d-flex">
                         <i class="start-recording-button fa fa-microphone" aria-hidden="true"></i>
+			<div class="spinner-border text-primary visually-hidden" role="status">
+			  <span id="micspin" class="spinner-border-sm visually-hidden" role="status" aria-hidden="true">Loading...</span>
+			</div>
                         <div class="recording-contorl-buttons-container hide">
                             <i class="cancel-recording-button fa fa-times-circle-o" aria-hidden="true"></i>
                             <div class="recording-elapsed-time">
@@ -92,10 +95,16 @@
                       <label for="name" class="form-label fw-bold fs-5">Please Type an Arabic Text of a Verse</label>
       
                       <div class="col-md-6 mx-auto my-4">
-                          <input type="text" class="form-control" id="Text" name="Text" required>
+                          <input type="text" class="form-control" id="Text" name="Text">
+                          <div id="invalidtext" class="feedback text-danger visually-hidden">
+                            Please type an Arabic Text of The Quran
+                          </div>
                         </div>            
                       <div class="gap-2 d-sm-flex justify-content-sm-center my-4">
-                        <button onclick="searchfindText()" id="textbutton" class="btn btn-primary">Find Verse</button>
+                        <button onclick="searchfindText()" id="textbutton" class="btn btn-primary">
+                          <span id="textspin" class="spinner-border spinner-border-sm visually-hidden" role="status" aria-hidden="true"></span>
+                          Find Verse
+                      </button>
                       </div>            
                   </div>
               </div>
@@ -107,10 +116,16 @@
                   <div class="col-md-8 mx-auto text-center mt-4">
                       <label for="name" class="form-label fw-bold fs-5">Please Insert an audio File of Verse</label>
                         <div class="col-md-6 mx-auto my-4">
-                          <input type="file" id="file" name="file" accept="audio/*" class="form-control" required>
+                          <input type="file" id="file" name="file" accept="audio/*" class="form-control">
+                          <div id="invalidfile" class="feedback text-danger visually-hidden">
+                            Please Input an Audio File
+                          </div>
                         </div>
                         <div class="gap-2 d-sm-flex justify-content-sm-center my-4">
-                          <button onclick="searchfind()" id="audiobutton" class="btn btn-primary">Submit</button>
+                          <button onclick="searchfind()" id="audiobutton" class="btn btn-primary">
+              			        <span id="filespin" class="spinner-border spinner-border-sm visually-hidden" role="status" aria-hidden="true"></span>
+			                      Find Verse
+                    			</button>
                         </div>
                   </div>
               </div>

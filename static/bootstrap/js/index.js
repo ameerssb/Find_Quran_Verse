@@ -18,6 +18,8 @@ var recordingControlButtonsContainer = document.getElementsByClassName("recordin
 var stopRecordingButton = document.getElementsByClassName("stop-recording-button")[0];
 var cancelRecordingButton = document.getElementsByClassName("cancel-recording-button")[0];
 var elapsedTimeTag = document.getElementsByClassName("elapsed-time")[0];
+var microphoneButton = document.getElementsByClassName("start-recording-button")[0];
+var spinner = document.getElementsByClassName("spinner-border")[0];
 //var closeBrowserNotSupportedBoxButton = document.getElementsByClassName("close-browser-not-supported-box")[0];
 //var overlay = document.getElementsByClassName("overlay")[0];
 //var audioElement = document.getElementsByClassName("audio-element")[0];
@@ -193,6 +195,10 @@ function stopAudioRecording() {
 
     handleHidingRecordingControlButtons();
 
+	microphoneButton.classList.add("visually-hidden");
+
+	spinner.classList.remove("visually-hidden");
+
     //stop microphone access
 	gumStream.getAudioTracks()[0].stop();
 
@@ -262,116 +268,148 @@ function search(blob, filename){
 			  cache: false,
 			  timeout: 100000           
 		  });
+		  microphoneButton.classList.remove("visually-hidden");
+
+		  spinner.classList.add("visually-hidden");	  
 }
 
 function searchfind (){
-	var button = document.getElementById("audiobutton");
-	button.disabled = true; 
-    var form = new FormData();
-    var files = document.getElementById("file").files;
-    var file = files[0];
-    form.append("file", file, file.name);
-                $.ajax({
-                url: "/hello",
-                method: "POST",
-                processData: false,
-                mimeType: "multipart/form-data",
-                contentType: false,
-                data: form,
-				statusCode: {
-					404: function(responseObject, textStatus, jqXHR) {
-						alert('not found '+textStatus);
-						// No content found (404)
-						// This code will be executed if the server returns a 404 response
-					},
-					400: function(responseObject, textStatus, jqXHR) {
-						alert('Bad Request '+textStatus);
-						// No content found (404)
-						// This code will be executed if the server returns a 404 response
-					},
-					403: function(responseObject, textStatus, jqXHR) {
-						alert('Forbidden '+textStatus);
-						// No content found (404)
-						// This code will be executed if the server returns a 404 response
-					},
-					500: function(responseObject, textStatus, jqXHR) {
-						alert('Server Error '+textStatus);
-						// No content found (404)
-						// This code will be executed if the server returns a 404 response
-					},
-					503: function(responseObject, textStatus, errorThrown) {
-						alert("unavailable "+textStatus);
-						// Service Unavailable (503)
-						// This code will be executed if the server returns a 503 response
-					}},
-					success: function (data, statusCode){
-						const x = JSON.parse(data)
-						let test = '';
-						for (var i = 0; i<Object.keys(x.sura).length; i++){
-							test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
-						}
-						alert(test);	
-					},
-                async: false,
-                cache: false,
-                timeout: 30000
-			});
-		button.disabled = false; 
-    }
-
-
-function searchfindText (){
-		var button = document.getElementById("textbutton");
-		var answer;
+	var invalidText = document.getElementById("invalidfile")
+	var invalid = document.getElementById("file");
+	if (!(invalidText.classList.contains("visually-hidden"))){
+		invalidText.classList.add("visually-hidden");
+	}
+	if(invalid.value.length == 0){
+		invalidText.classList.remove("visually-hidden");
+	}
+	else if(invalidText.classList.contains("visually-hidden")) {
+		var button = document.getElementById("audiobutton");
+		var textspin = document.getElementById("filespin")
 		button.disabled = true; 
+	//	button.innerText = "Loading..."; 
+		textspin.classList.remove("visually-hidden");
 		var form = new FormData();
-		form.append("arabic", $('#Text').val());
+		var files = document.getElementById("file").files;
+		var file = files[0];
+		form.append("file", file, file.name);
 					$.ajax({
-					url: "/translator",
+					url: "/hello",
 					method: "POST",
 					processData: false,
 					mimeType: "multipart/form-data",
 					contentType: false,
 					data: form,
 					statusCode: {
-					404: function(responseObject, textStatus, jqXHR) {
-						alert('not found '+textStatus);
-						// No content found (404)
-						// This code will be executed if the server returns a 404 response
-					},
-					400: function(responseObject, textStatus, jqXHR) {
-						alert('Bad Request '+textStatus);
-						// No content found (404)
-						// This code will be executed if the server returns a 404 response
-					},
-					403: function(responseObject, textStatus, jqXHR) {
-						alert('Forbidden '+textStatus);
-						// No content found (404)
-						// This code will be executed if the server returns a 404 response
-					},
-					500: function(responseObject, textStatus, jqXHR) {
-						alert('Server Error '+textStatus);
-						// No content found (404)
-						// This code will be executed if the server returns a 404 response
-					},
-					503: function(responseObject, textStatus, errorThrown) {
-						alert("unavailable "+textStatus);
-						// Service Unavailable (503)
-						// This code will be executed if the server returns a 503 response
-					}},
-					success: function (data, statusCode){
-						const x = JSON.parse(data)
-						let test = '';
-						for (var i = 0; i<Object.keys(x.sura).length; i++){
-							test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
-						}
-						alert(test);	
-					},
+						404: function(responseObject, textStatus, jqXHR) {
+							alert('not found '+textStatus);
+							// No content found (404)
+							// This code will be executed if the server returns a 404 response
+						},
+						400: function(responseObject, textStatus, jqXHR) {
+							alert('Bad Request '+textStatus);
+							// No content found (404)
+							// This code will be executed if the server returns a 404 response
+						},
+						403: function(responseObject, textStatus, jqXHR) {
+							alert('Forbidden '+textStatus);
+							// No content found (404)
+							// This code will be executed if the server returns a 404 response
+						},
+						500: function(responseObject, textStatus, jqXHR) {
+							alert('Server Error '+textStatus);
+							// No content found (404)
+							// This code will be executed if the server returns a 404 response
+						},
+						503: function(responseObject, textStatus, errorThrown) {
+							alert("unavailable "+textStatus);
+							// Service Unavailable (503)
+							// This code will be executed if the server returns a 503 response
+						}},
+						success: function (data, statusCode){
+							const x = JSON.parse(data)
+							let test = '';
+							for (var i = 0; i<Object.keys(x.sura).length; i++){
+								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
+							}
+							alert(test);	
+						},
 					async: false,
 					cache: false,
-					timeout: 100000           
+					timeout: 30000
 				});
+			textspin.classList.add("visually-hidden");
+	//		button.innerText = "Find Verse"; 
 			button.disabled = false; 
+		}	
+    }
+
+
+function searchfindText (){
+		var invalid = document.getElementById("Text");
+		var invalidText = document.getElementById("invalidtext");
+		if (!(invalidText.classList.contains("visually-hidden"))){
+			invalidText.classList.add("visually-hidden");
+		}
+		if(invalid.value.length == 0){
+			invalidText.classList.remove("visually-hidden");
+		}
+		else if(invalidText.classList.contains("visually-hidden")) {
+			var button = document.getElementById("textbutton");
+			var textspin = document.getElementById("textspin")	
+			button.disabled = true;
+	//		button.innerText = "Loading..."; 
+			textspin.classList.remove("visually-hidden");
+			var form = new FormData();
+			form.append("arabic", $('#Text').val());
+						$.ajax({
+						url: "/translator",
+						method: "POST",
+						processData: false,
+						mimeType: "multipart/form-data",
+						contentType: false,
+						data: form,
+						statusCode: {
+						404: function(responseObject, textStatus, jqXHR) {
+							alert('not found '+textStatus);
+							// No content found (404)
+							// This code will be executed if the server returns a 404 response
+						},
+						400: function(responseObject, textStatus, jqXHR) {
+							alert('Bad Request '+textStatus);
+							// No content found (404)
+							// This code will be executed if the server returns a 404 response
+						},
+						403: function(responseObject, textStatus, jqXHR) {
+							alert('Forbidden '+textStatus);
+							// No content found (404)
+							// This code will be executed if the server returns a 404 response
+						},
+						500: function(responseObject, textStatus, jqXHR) {
+							alert('Server Error '+textStatus);
+							// No content found (404)
+							// This code will be executed if the server returns a 404 response
+						},
+						503: function(responseObject, textStatus, errorThrown) {
+							alert("unavailable "+textStatus);
+							// Service Unavailable (503)
+							// This code will be executed if the server returns a 503 response
+						}},
+						success: function (data, statusCode){
+							const x = JSON.parse(data)
+							let test = '';
+							for (var i = 0; i<Object.keys(x.sura).length; i++){
+								test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
+							}
+							alert(test);	
+						},
+						async: false,
+						cache: false,
+						timeout: 100000           
+					});
+					textspin.classList.add("visually-hidden");
+	//				button.innerText = "Find Verse"; 
+					button.disabled = false;
+				} 		
 		}
 
 
