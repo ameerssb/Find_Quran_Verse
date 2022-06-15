@@ -234,7 +234,7 @@ function search(blob, filename){
 			data: form,
 			  	async: true,
 			  	cache: false,
-			  	timeout: 30000           
+			  	timeout: 100000           
 		  })
 		  .done(function(data){
 			const x = JSON.parse(data)
@@ -282,7 +282,7 @@ function searchfind (){
 					data: form,
 					async: true,
 					cache: false,
-					timeout: 30000
+					timeout: 100000
 				})
 				.done(function(data){
 						const x = JSON.parse(data)
@@ -372,7 +372,7 @@ function searchfindText (){
 						data: form,
 						async: true,
 						cache: false,
-						timeout: 30000           
+						timeout: 100000           
 					})
 					.done(function(data){
 						const x = JSON.parse(data)

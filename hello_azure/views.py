@@ -14,10 +14,6 @@ def index(request):
     print('Request for index page received')
     return render(request, 'hello_azure/home.html')
 
-@csrf_exempt
-def recorder(request):
-    print('Request for index page received')
-    return render(request, 'hello_azure/index.html')
 
 @csrf_exempt
 def hello(req):
@@ -71,7 +67,7 @@ def hello(req):
             ]
             headers = {}
             try:
-                response = requests.request("POST", url, headers=headers, files=files, timeout=20)
+                response = requests.request("POST", url, headers=headers, files=files, timeout=50)
                 if response.status_code == 200:
                     json_object = json.dumps(response.json(), ensure_ascii=False)
                     return HttpResponse(json_object, status = 200)
@@ -102,7 +98,7 @@ def translator(req):
             url = "https://quranfind.azurewebsites.net/api/quran"
             payload={'arabic_text': arabic}
             try:
-                response = requests.request("GET", url, params=payload, timeout=20)
+                response = requests.request("GET", url, params=payload, timeout=50)
                 if response.status_code == 200:
                     json_object = json.dumps(response.json(), ensure_ascii=False)
                     return HttpResponse(json_object, status = 200)
