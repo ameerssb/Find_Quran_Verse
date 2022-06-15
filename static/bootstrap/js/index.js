@@ -232,32 +232,6 @@ function search(blob, filename){
 			mimeType: "multipart/form-data",
 			contentType: false,
 			data: form,
-			statusCode: {
-				404: function(responseObject, textStatus, jqXHR) {
-					window.alert('not found '+textStatus);
-					// No content found (404)
-					// This code will be executed if the server returns a 404 response
-				},
-				400: function(responseObject, textStatus, jqXHR) {
-					window.alert('Bad Request '+textStatus);
-					// No content found (404)
-					// This code will be executed if the server returns a 404 response
-				},
-				403: function(responseObject, textStatus, jqXHR) {
-					window.alert('Forbidden '+textStatus);
-					// No content found (404)
-					// This code will be executed if the server returns a 404 response
-				},
-				500: function(responseObject, textStatus, jqXHR) {
-					window.alert('Server Error '+textStatus);
-					// No content found (404)
-					// This code will be executed if the server returns a 404 response
-				},
-				503: function(responseObject, textStatus, errorThrown) {
-					window.alert("unavailable "+textStatus);
-					// Service Unavailable (503)
-					// This code will be executed if the server returns a 503 response
-				}},
 			  	async: true,
 			  	cache: false,
 			  	timeout: 30000           
@@ -271,7 +245,7 @@ function search(blob, filename){
 			window.alert(test);	
 			})
 			.fail(function(jqXHR, textStatus){
-				window.alert("Server error "+textStatus);
+				window.alert("Server "+textStatus);
 			})
 			.always(function(jqXHR, textStatus){
 				microphoneButton.classList.remove("visually-hidden");
@@ -306,32 +280,6 @@ function searchfind (){
 					mimeType: "multipart/form-data",
 					contentType: false,
 					data: form,
-					statusCode: {
-						404: function(responseObject, textStatus, jqXHR) {
-							window.alert('not found '+textStatus);
-							// No content found (404)
-							// This code will be executed if the server returns a 404 response
-						},
-						400: function(responseObject, textStatus, jqXHR) {
-							window.alert('Bad Request '+textStatus);
-							// No content found (404)
-							// This code will be executed if the server returns a 404 response
-						},
-						403: function(responseObject, textStatus, jqXHR) {
-							window.alert('Forbidden '+textStatus);
-							// No content found (404)
-							// This code will be executed if the server returns a 404 response
-						},
-						500: function(responseObject, textStatus, jqXHR) {
-							window.alert('Server Error '+textStatus);
-							// No content found (404)
-							// This code will be executed if the server returns a 404 response
-						},
-						503: function(responseObject, textStatus, errorThrown) {
-							window.alert("unavailable "+textStatus);
-							// Service Unavailable (503)
-							// This code will be executed if the server returns a 503 response
-						}},
 					async: true,
 					cache: false,
 					timeout: 30000
@@ -345,7 +293,7 @@ function searchfind (){
 						window.alert(test);	
 				})
 				.fail(function(jqXHR, textStatus){
-					window.alert("Server error "+textStatus);
+					window.alert("Server "+textStatus);
 				})
 				.always(function(jqXHR, textStatus){
 					textspin.classList.add("visually-hidden");
@@ -422,32 +370,6 @@ function searchfindText (){
 						mimeType: "multipart/form-data",
 						contentType: false,
 						data: form,
-						statusCode: {
-						404: function(responseObject, textStatus, jqXHR) {
-							window.alert('not found '+textStatus);
-							// No content found (404)
-							// This code will be executed if the server returns a 404 response
-						},
-						400: function(responseObject, textStatus, jqXHR) {
-							window.alert('Bad Request '+textStatus);
-							// No content found (404)
-							// This code will be executed if the server returns a 404 response
-						},
-						403: function(responseObject, textStatus, jqXHR) {
-							window.alert('Forbidden '+textStatus);
-							// No content found (404)
-							// This code will be executed if the server returns a 404 response
-						},
-						500: function(responseObject, textStatus, jqXHR) {
-							window.alert('Server Error '+textStatus);
-							// No content found (404)
-							// This code will be executed if the server returns a 404 response
-						},
-						503: function(responseObject, textStatus, errorThrown) {
-							window.alert("unavailable "+textStatus);
-							// Service Unavailable (503)
-							// This code will be executed if the server returns a 503 response
-						}},
 						async: true,
 						cache: false,
 						timeout: 30000           
@@ -461,7 +383,7 @@ function searchfindText (){
 						window.alert(test);	
 					})
 					.fail(function(jqXHR, textStatus){
-						window.alert("Server error "+textStatus);
+						window.alert("Server "+textStatus);
 					})	
 					.always(function(jqXHR, textStatus){
 						textspin.classList.add("visually-hidden");
