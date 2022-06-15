@@ -234,27 +234,27 @@ function search(blob, filename){
 			data: form,
 			statusCode: {
 				404: function(responseObject, textStatus, jqXHR) {
-					alert('not found '+textStatus);
+					window.alert('not found '+textStatus);
 					// No content found (404)
 					// This code will be executed if the server returns a 404 response
 				},
 				400: function(responseObject, textStatus, jqXHR) {
-					alert('Bad Request '+textStatus);
+					window.alert('Bad Request '+textStatus);
 					// No content found (404)
 					// This code will be executed if the server returns a 404 response
 				},
 				403: function(responseObject, textStatus, jqXHR) {
-					alert('Forbidden '+textStatus);
+					window.alert('Forbidden '+textStatus);
 					// No content found (404)
 					// This code will be executed if the server returns a 404 response
 				},
 				500: function(responseObject, textStatus, jqXHR) {
-					alert('Server Error '+textStatus);
+					window.alert('Server Error '+textStatus);
 					// No content found (404)
 					// This code will be executed if the server returns a 404 response
 				},
 				503: function(responseObject, textStatus, errorThrown) {
-					alert("unavailable "+textStatus);
+					window.alert("unavailable "+textStatus);
 					// Service Unavailable (503)
 					// This code will be executed if the server returns a 503 response
 				}},
@@ -269,12 +269,15 @@ function search(blob, filename){
 				test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 			}
 			window.alert(test);	
-		})
-		.always(function(jqXHR, textStatus){
-			microphoneButton.classList.remove("visually-hidden");
+			})
+			.fail(function(jqXHR, textStatus){
+				window.alert("Server error "+textStatus);
+			})
+			.always(function(jqXHR, textStatus){
+				microphoneButton.classList.remove("visually-hidden");
 
-			spinner.classList.add("visually-hidden");
-		})
+				spinner.classList.add("visually-hidden");
+			})
 }
 
 function searchfind (){
@@ -305,27 +308,27 @@ function searchfind (){
 					data: form,
 					statusCode: {
 						404: function(responseObject, textStatus, jqXHR) {
-							alert('not found '+textStatus);
+							window.alert('not found '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						400: function(responseObject, textStatus, jqXHR) {
-							alert('Bad Request '+textStatus);
+							window.alert('Bad Request '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						403: function(responseObject, textStatus, jqXHR) {
-							alert('Forbidden '+textStatus);
+							window.alert('Forbidden '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						500: function(responseObject, textStatus, jqXHR) {
-							alert('Server Error '+textStatus);
+							window.alert('Server Error '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						503: function(responseObject, textStatus, errorThrown) {
-							alert("unavailable "+textStatus);
+							window.alert("unavailable "+textStatus);
 							// Service Unavailable (503)
 							// This code will be executed if the server returns a 503 response
 						}},
@@ -340,6 +343,9 @@ function searchfind (){
 							test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
 						}
 						window.alert(test);	
+				})
+				.fail(function(jqXHR, textStatus){
+					window.alert("Server error "+textStatus);
 				})
 				.always(function(jqXHR, textStatus){
 					textspin.classList.add("visually-hidden");
@@ -418,27 +424,27 @@ function searchfindText (){
 						data: form,
 						statusCode: {
 						404: function(responseObject, textStatus, jqXHR) {
-							alert('not found '+textStatus);
+							window.alert('not found '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						400: function(responseObject, textStatus, jqXHR) {
-							alert('Bad Request '+textStatus);
+							window.alert('Bad Request '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						403: function(responseObject, textStatus, jqXHR) {
-							alert('Forbidden '+textStatus);
+							window.alert('Forbidden '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						500: function(responseObject, textStatus, jqXHR) {
-							alert('Server Error '+textStatus);
+							window.alert('Server Error '+textStatus);
 							// No content found (404)
 							// This code will be executed if the server returns a 404 response
 						},
 						503: function(responseObject, textStatus, errorThrown) {
-							alert("unavailable "+textStatus);
+							window.alert("unavailable "+textStatus);
 							// Service Unavailable (503)
 							// This code will be executed if the server returns a 503 response
 						}},
@@ -454,6 +460,9 @@ function searchfindText (){
 						}
 						window.alert(test);	
 					})
+					.fail(function(jqXHR, textStatus){
+						window.alert("Server error "+textStatus);
+					})	
 					.always(function(jqXHR, textStatus){
 						textspin.classList.add("visually-hidden");
 						//button.innerText = "Find Verse"; 
