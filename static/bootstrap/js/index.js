@@ -399,7 +399,7 @@ function searchfindText (){
 //					console.log(test);
 //					window.alert(test);
 					Length = Object.keys(x).length;
-					ModalBody.innerText = test + Length + " Result Found";
+					ModalBody.innerText = test + Length + " Results Found";
 					$("#staticBackdrop").modal("toggle");	
 					})
 					.fail(function(jqXHR, textStatus){
