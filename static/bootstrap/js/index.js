@@ -20,6 +20,7 @@ var cancelRecordingButton = document.getElementsByClassName("cancel-recording-bu
 var elapsedTimeTag = document.getElementsByClassName("elapsed-time")[0];
 var microphoneButton = document.getElementsByClassName("start-recording-button")[0];
 var spinner = document.getElementsByClassName("spinner-border")[0];
+var ModalBody = document.getElementById("ModalBody");
 var arabicAlphabetDigits = /[\u0600-\u06FF]/;
 var AlphabetDigits = /[a-zA-Z0-9]/;
 //var closeBrowserNotSupportedBoxButton = document.getElementsByClassName("close-browser-not-supported-box")[0];
@@ -230,22 +231,28 @@ function search(blob, filename){
 			method: "POST",
 			processData: false,
 			mimeType: "multipart/form-data",
+			dataType:"json",
 			contentType: false,
 			data: form,
 			  	async: true,
 			  	cache: false,
-			  	timeout: 100000           
+			  	timeout: 200000           
 		  })
 		  .done(function(data){
 			const x = JSON.parse(data)
-			let test = '';
-			for (var i = 0; i<Object.keys(x.sura).length; i++){
-				test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
+			let test = ""
+//			console.log(Object.keys(x).length);					
+			for (var i = 1; i<=Object.keys(x).length; i++){
+				test += `Sura Chapter: ${x[i].sura} \nSura Name: ${x[i].Sura_Name} \nVerse Number: ${x[i].aya} \nArabic Text: ${x[i].text} \n\n`;
 			}
-			window.alert(test);	
+//			console.log(test);
+			Length = Object.keys(x).length;
+			ModalBody.innerText = test + Length + " Results Found";
+			$("#staticBackdrop").modal("toggle");	
 			})
 			.fail(function(jqXHR, textStatus){
-				window.alert("Server "+textStatus);
+				ModalBody.innerText = "Server "+textStatus;
+				$("#staticBackdrop").modal("toggle");	
 			})
 			.always(function(jqXHR, textStatus){
 				microphoneButton.classList.remove("visually-hidden");
@@ -280,20 +287,27 @@ function searchfind (){
 					mimeType: "multipart/form-data",
 					contentType: false,
 					data: form,
+					dataType:"json",
 					async: true,
 					cache: false,
-					timeout: 100000
+					timeout: 200000
 				})
 				.done(function(data){
 						const x = JSON.parse(data)
 						let test = '';
-						for (var i = 0; i<Object.keys(x.sura).length; i++){
-							test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
+//						console.log(Object.keys(x).length);					
+						for (var i = 1; i<=Object.keys(x).length; i++){
+							test += `Sura Chapter: ${x[i].sura} \nSura Name: ${x[i].Sura_Name} \nVerse Number: ${x[i].aya} \nArabic Text: ${x[i].text} \n\n`;
 						}
-						window.alert(test);	
+//						console.log(test);
+//						window.alert(test);	
+					Length = Object.keys(x).length;
+					ModalBody.innerText = test + Length + " Results Found";
+					$("#staticBackdrop").modal("toggle");	
 				})
 				.fail(function(jqXHR, textStatus){
-					window.alert("Server "+textStatus);
+					ModalBody.innerText = "Server "+textStatus;
+					$("#staticBackdrop").modal("toggle");			
 				})
 				.always(function(jqXHR, textStatus){
 					textspin.classList.add("visually-hidden");
@@ -369,21 +383,28 @@ function searchfindText (){
 						processData: false,
 						mimeType: "multipart/form-data",
 						contentType: false,
+						dataType:"json",
 						data: form,
 						async: true,
 						cache: false,
-						timeout: 100000           
+						timeout: 200000           
 					})
 					.done(function(data){
 						const x = JSON.parse(data)
 						let test = '';
-						for (var i = 0; i<Object.keys(x.sura).length; i++){
-							test += `Sura Chapter: ${x.sura[i]} \nSura Name: ${x.Sura_Name[i]} \nVerse Number: ${x.aya[i]} \nArabic Text: ${x.text[i]} \n\n`;
-						}
-						window.alert(test);	
+					//console.log(Object.keys(x).length);					
+					for (var i = 1; i<=Object.keys(x).length; i++){
+						test += `Sura Chapter: ${x[i].sura} \nSura Name: ${x[i].Sura_Name} \nVerse Number: ${x[i].aya} \nArabic Text: ${x[i].text} \n\n`;
+					}
+//					console.log(test);
+//					window.alert(test);
+					Length = Object.keys(x).length;
+					ModalBody.innerText = test + Length + " Result Found";
+					$("#staticBackdrop").modal("toggle");	
 					})
 					.fail(function(jqXHR, textStatus){
-						window.alert("Server "+textStatus);
+						ModalBody.innerText = "Server "+textStatus;
+						$("#staticBackdrop").modal("toggle");		
 					})	
 					.always(function(jqXHR, textStatus){
 						textspin.classList.add("visually-hidden");

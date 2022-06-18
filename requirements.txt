@@ -1,6 +1,7 @@
 Django
 whitenoise
 pandas
+numpy
 mysql.connector
 SpeechRecognition
 requests
