@@ -58,8 +58,6 @@ def hello(req):
             except:
                 content = {"An error occured while reading this file, please check this file or upload another"}
                 return HttpResponse(content, status=500)
-            file = Translating(Aud)
-            response = Processing(file)
 #            fs = FileSystemStorage()
 #            filename = fs.save(img_file.name, img_file)
 #            path = fs.path(filename)
@@ -69,6 +67,8 @@ def hello(req):
             ]
             headers = {}
             try:
+                file = Translating(Aud)
+                response = Processing(file)
                 #response = requests.request("POST", url, headers=headers, files=files, timeout=50)
                 #if response.status_code == 200:
                 json_object = json.dumps(response, ensure_ascii=False)
@@ -77,8 +77,10 @@ def hello(req):
                     return HttpResponse( "An Error occured while Processing Request", status=500)
                 else:
                     return HttpResponse("an error occured", status=400)
-            except requests.Timeout:
-                    return HttpResponse( "An Error occured while Processing Request", status=500)
+            except :
+                return HttpResponse( "An Error occured while Processing Request", status=500)
+#            except requests.Timeout:
+#                    return HttpResponse( "An Error occured while Processing Request", status=500)
         else:
             return HttpResponse("This File is corrupted", status=500)
     else:
@@ -96,10 +98,10 @@ def translator(req):
             pass
         if arabic != None:
     #            file = Translating(Aud)
-            response = Processing(arabic)
             url = "https://quranfind.azurewebsites.net/api/quran"
             payload={'arabic_text': arabic}
             try:
+                response = Processing(arabic)
                 #response = requests.request("GET", url, params=payload, timeout=50)
                 #if response.status_code == 200:
                 json_object = json.dumps(response, ensure_ascii=False)
@@ -108,8 +110,10 @@ def translator(req):
                     return HttpResponse( "An Error occured while Processing Request", status=500)
                 else:
                     return HttpResponse("an error occured", status=400)
-            except requests.Timeout:
-                    return HttpResponse( "An Error occured while Processing Request", status=500)
+            except :
+                return HttpResponse( "An Error occured while Processing Request", status=500)
+#            except requests.Timeout:
+#                    return HttpResponse( "An Error occured while Processing Request", status=500)
         else:
             return HttpResponse("This File is corrupted", status=500)
     else:
@@ -118,6 +122,125 @@ def translator(req):
          status=404
     )
 
+
+
+@csrf_exempt
+def AndroidAudio(req):
+    Aud = None
+    if req.method == 'POST':
+        try:
+            Aud = req.FILES['file']
+        except ValueError:
+            pass
+        if Aud != None:
+            filename = Aud.name
+            point = Changin2Wav(filename)
+            if point == 0:
+                return HttpResponse("Can't Process this type of file")
+            try:
+                if point == 2:
+                    AudioSegment.from_file(Aud, 'mp3')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 3:
+                    AudioSegment.from_file(Aud, 'mp4')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 4:
+                    AudioSegment.from_file(Aud, 'm4a')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 5:
+                    AudioSegment.from_file(Aud, 'wma')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 6:
+                    AudioSegment.from_file(Aud, 'flac')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 7:
+                    AudioSegment.from_file(Aud, 'aac')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 8:
+                    AudioSegment.from_file(Aud, 'ogg')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 9:
+                    AudioSegment.from_file(Aud, 'raw')
+                    AudioSegment.export(Aud, format='wav')
+            except:
+                content = {"An error occured while reading this file, please check this file or upload another"}
+                return HttpResponse(content, status=500)
+#            fs = FileSystemStorage()
+#            filename = fs.save(img_file.name, img_file)
+#            path = fs.path(filename)
+            url = "https://quranfind.azurewebsites.net/api/quran"
+            files=[
+            ('file',(filename,Aud.open(),'audio/wav'))
+            ]
+            headers = {}
+            try:
+                file = Translating(Aud)
+                response = Processing(file)
+                #response = requests.request("POST", url, headers=headers, files=files, timeout=50)
+                #if response.status_code == 200:
+#                json_object = json.dumps(response, ensure_ascii=False)
+                json_object = JsonToString(response)
+                return HttpResponse(json_object, status = 200)
+                if response.status_code == 500:
+                    return HttpResponse( "An Error occured while Processing Request", status=500)
+                else:
+                    return HttpResponse("an error occured", status=400)
+            except :
+                return HttpResponse( "An Error occured while Processing Request", status=500)
+#            except requests.Timeout:
+#                    return HttpResponse( "An Error occured while Processing Request", status=500)
+        else:
+            return HttpResponse("This File is corrupted", status=500)
+    else:
+        return HttpResponse(
+         "No Such WebPage",
+         status=404
+    )
+
+@csrf_exempt
+def AndroidText(req):
+    if req.method == 'POST':
+        try:
+            arabic = req.POST['arabic']
+        except ValueError:
+            pass
+        if arabic != None:
+    #            file = Translating(Aud)
+            url = "https://quranfind.azurewebsites.net/api/quran"
+            payload={'arabic_text': arabic}
+            try:
+                response = Processing(arabic)
+                #response = requests.request("GET", url, params=payload, timeout=50)
+                #if response.status_code == 200:
+                json_object = JsonToString(response)
+                return HttpResponse(json_object, status = 200)
+                if response.status_code == 500:
+                    return HttpResponse( "An Error occured while Processing Request", status=500)
+                else:
+                    return HttpResponse("an error occured", status=400)
+            except :
+                return HttpResponse( "An Error occured while Processing Request", status=500)
+#            except requests.Timeout:
+#                    return HttpResponse( "An Error occured while Processing Request", status=500)
+        else:
+            return HttpResponse("This File is corrupted", status=500)
+    else:
+        return HttpResponse(
+         "No Such WebPage",
+         status=404
+    )
+
+def JsonToString(response):
+    data = ""
+    json_object = json.dumps(response, ensure_ascii=False)
+    x = json.loads(response)
+    length = len(x)
+    for i in range(length):
+        i += 1
+        i = str(i) 
+        data += "Sura Chapter: " + str(x[i]["sura"]) + "\nSura Name: " + str(x[i]["Sura_Name"]) + "\nVerse Number: " + str(x[i]["aya"]) + "\nArabic Text: " + str(x[i]["text"]) +"\n\n"
+    data += str(length) + " Results Found"
+    return data
 
 def Changin2Wav(filename):
     point = 0
@@ -250,7 +373,7 @@ def Processing(s_result):
                     score = answer['score'].iloc[0]
                     add = 1
                     for i in range(len(answer)-1):
-                        if score * 0.85 < answer['score'].iloc[i+1] and score >= 8.0:
+                        if score * 0.85 < answer['score'].iloc[i+1] and score >= 5.0:
                             add = i
                     answer = verse_find[0]
                     answer = answer[["Sura_Name","sura","aya","text"]]
