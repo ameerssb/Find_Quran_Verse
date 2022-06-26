@@ -38,21 +38,10 @@ def hello(req):
             ('file',(filename,Aud.open(),'audio/wav'))
             ]
             headers = {}
-            try:
-                file = Translating(Aud)
-                response = Processing(file)
-                #response = requests.request("POST", url, headers=headers, files=files, timeout=50)
-                #if response.status_code == 200:
-                json_object = json.dumps(response, ensure_ascii=False)
-                return HttpResponse(json_object, status = 200)
-                if response.status_code == 500:
-                    return HttpResponse( "An Error occured while Processing Request", status=500)
-                else:
-                    return HttpResponse("an error occured", status=400)
-            except :
-                return HttpResponse( "An Error occured while Processing Request", status=500)
-#            except requests.Timeout:
-#                    return HttpResponse( "An Error occured while Processing Request", status=500)
+            file = Translating(Aud)
+            response = Processing(file)
+            json_object = json.dumps(response, ensure_ascii=False)
+            return HttpResponse(json_object, status = 200)
         else:
             return HttpResponse("This File is corrupted", status=500)
     else:
