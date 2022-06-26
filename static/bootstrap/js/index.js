@@ -305,8 +305,8 @@ function searchfind (){
 					ModalBody.innerText = test + Length + " Results Found";
 					$("#staticBackdrop").modal("toggle");	
 				})
-				.fail(function(jqXHR, textStatus){
-					ModalBody.innerText = "Server "+textStatus;
+				.fail(function(request, status, error){
+					ModalBody.innerText = "Server "+request.responseText;
 					$("#staticBackdrop").modal("toggle");			
 				})
 				.always(function(jqXHR, textStatus){
