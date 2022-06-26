@@ -32,32 +32,32 @@ def hello(req):
                 return HttpResponse("Can't Process this type of file")
             try:
                 if point == 2:
-                    AudioSegment.from_file(Aud, 'mp3')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'mp3')
+                    sound.export(Aud, format='wav')
                 elif point == 3:
-                    AudioSegment.from_file(Aud, 'mp4')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'mp4')
+                    sound.export(Aud, format='wav')
                 elif point == 4:
-                    AudioSegment.from_file(Aud, 'm4a')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'm4a')
+                    sound.export(Aud, format='wav')
                 elif point == 5:
-                    AudioSegment.from_file(Aud, 'wma')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'wma')
+                    sound.export(Aud, format='wav')
                 elif point == 6:
-                    AudioSegment.from_file(Aud, 'flac')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'flac')
+                    sound.export(Aud, format='wav')
                 elif point == 7:
-                    AudioSegment.from_file(Aud, 'aac')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'aac')
+                    sound.export(Aud, format='wav')
                 elif point == 8:
-                    AudioSegment.from_file(Aud, 'ogg')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'ogg')
+                    sound.export(Aud, format='wav')
                 elif point == 9:
-                    AudioSegment.from_file(Aud, 'raw')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'raw')
+                    sound.export(Aud, format='wav')
                 elif point == 10:
-                    AudioSegment.from_file(Aud, '3gp')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, '3gp')
+                    sound.export(Aud, format='wav')
             except:
                 content = {"An error occured while reading this file, please check this file or upload another"}
                 return HttpResponse(content, status=500)
@@ -142,32 +142,32 @@ def AndroidAudio(req):
                 return HttpResponse("Can't Process this type of file")
             try:
                 if point == 2:
-                    AudioSegment.from_file(Aud, 'mp3')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'mp3')
+                    sound.export(Aud, format='wav')
                 elif point == 3:
-                    AudioSegment.from_file(Aud, 'mp4')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'mp4')
+                    sound.export(Aud, format='wav')
                 elif point == 4:
-                    AudioSegment.from_file(Aud, 'm4a')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'm4a')
+                    sound.export(Aud, format='wav')
                 elif point == 5:
-                    AudioSegment.from_file(Aud, 'wma')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'wma')
+                    sound.export(Aud, format='wav')
                 elif point == 6:
-                    AudioSegment.from_file(Aud, 'flac')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'flac')
+                    sound.export(Aud, format='wav')
                 elif point == 7:
-                    AudioSegment.from_file(Aud, 'aac')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'aac')
+                    sound.export(Aud, format='wav')
                 elif point == 8:
-                    AudioSegment.from_file(Aud, 'ogg')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'ogg')
+                    sound.export(Aud, format='wav')
                 elif point == 9:
-                    AudioSegment.from_file(Aud, 'raw')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, 'raw')
+                    sound.export(Aud, format='wav')
                 elif point == 10:
-                    AudioSegment.from_file(Aud, '3gp')
-                    AudioSegment.export(Aud, format='wav')
+                    sound = AudioSegment.from_file(Aud, '3gp')
+                    sound.export(Aud, format='wav')
             except:
                 content = {"An error occured while reading this file, please check this file or upload another"}
                 return HttpResponse(content, status=500)
