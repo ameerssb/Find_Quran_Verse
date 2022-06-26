@@ -55,6 +55,9 @@ def hello(req):
                 elif point == 9:
                     AudioSegment.from_file(Aud, 'raw')
                     AudioSegment.export(Aud, format='wav')
+                elif point == 10:
+                    AudioSegment.from_file(Aud, '3gp')
+                    AudioSegment.export(Aud, format='wav')
             except:
                 content = {"An error occured while reading this file, please check this file or upload another"}
                 return HttpResponse(content, status=500)
@@ -161,6 +164,9 @@ def AndroidAudio(req):
                     AudioSegment.export(Aud, format='wav')
                 elif point == 9:
                     AudioSegment.from_file(Aud, 'raw')
+                    AudioSegment.export(Aud, format='wav')
+                elif point == 10:
+                    AudioSegment.from_file(Aud, '3gp')
                     AudioSegment.export(Aud, format='wav')
             except:
                 content = {"An error occured while reading this file, please check this file or upload another"}
@@ -270,6 +276,9 @@ def Changin2Wav(filename):
         return point
     elif filename.lower().endswith('raw'):
         point = 9
+        return point
+    elif filename.lower().endswith('3gp'):
+        point = 10
         return point
     else:
         return point
