@@ -28,41 +28,8 @@ def hello(req):
             pass
         if Aud != None:
             filename = Aud.name
-            point = Changin2Wav(filename)
-            print(filename)    
-            if point == 0:
-                return HttpResponse("Can't Process this type of file")
-            try:
-                if point == 2:
-                    sound = AudioSegment.from_file(Aud, 'mp3')
-                    sound.export(Aud, format='wav')
-                elif point == 3:
-                    sound = AudioSegment.from_file(Aud, 'mp4')
-                    sound.export(Aud, format='wav')
-                elif point == 4:
-                    sound = AudioSegment.from_file(Aud, 'm4a')
-                    sound.export(Aud, format='wav')
-                elif point == 5:
-                    sound = AudioSegment.from_file(Aud, 'wma')
-                    sound.export(Aud, format='wav')
-                elif point == 6:
-                    sound = AudioSegment.from_file(Aud, 'flac')
-                    sound.export(Aud, format='wav')
-                elif point == 7:
-                    sound = AudioSegment.from_file(Aud, 'aac')
-                    sound.export(Aud, format='wav')
-                elif point == 8:
-                    sound = AudioSegment.from_file(Aud, 'ogg')
-                    sound.export(Aud, format='wav')
-                elif point == 9:
-                    sound = AudioSegment.from_file(Aud, 'raw')
-                    sound.export(Aud, format='wav')
-                elif point == 10:
-                    sound = AudioSegment.from_file(Aud, '3gp')
-                    sound.export(Aud, format='wav')
-            except:
-                content = "An error occured while reading this file, please check this file or upload another" + str(sys.exc_info()[0])
-                return HttpResponse(content, status=500)
+            Changin2Wav(Aud,filename)
+            print(filename)
 #            fs = FileSystemStorage()
 #            filename = fs.save(img_file.name, img_file)
 #            path = fs.path(filename)
@@ -252,40 +219,63 @@ def JsonToString(response):
     data += str(length) + " Results Found"
     return data
 
-def Changin2Wav(filename):
+def Changin2Wav(Aud,filename):
     point = 0
     if filename.lower().endswith('wav'):
         point = 1
-        return point
     elif filename.lower().endswith('mp3'):
         point = 2
-        return point
     elif filename.lower().endswith('mp4'):
         point = 3
-        return point
     elif filename.lower().endswith('m4a'):
         point = 4
-        return point
     elif filename.lower().endswith('wma'):
         point = 5
-        return point
     elif filename.lower().endswith('flac'):
         point = 6
-        return point
     elif filename.lower().endswith('aac'):
         point = 7
-        return point
     elif filename.lower().endswith('ogg'):
         point = 8
-        return point
     elif filename.lower().endswith('raw'):
         point = 9
-        return point
     elif filename.lower().endswith('3gp'):
         point = 10
-        return point
     else:
-        return point
+        point = 0
+    if point == 0:
+        return HttpResponse("Can't Process this type of file")
+    try:
+        if point == 2:
+            sound = AudioSegment.from_file(Aud, 'mp3')
+            sound.export(Aud, format='wav')
+        elif point == 3:
+            sound = AudioSegment.from_file(Aud, 'mp4')
+            sound.export(Aud, format='wav')
+        elif point == 4:
+            sound = AudioSegment.from_file(Aud, 'm4a')
+            sound.export(Aud, format='wav')
+        elif point == 5:
+            sound = AudioSegment.from_file(Aud, 'wma')
+            sound.export(Aud, format='wav')
+        elif point == 6:
+            sound = AudioSegment.from_file(Aud, 'flac')
+            sound.export(Aud, format='wav')
+        elif point == 7:
+            sound = AudioSegment.from_file(Aud, 'aac')
+            sound.export(Aud, format='wav')
+        elif point == 8:
+            sound = AudioSegment.from_file(Aud, 'ogg')
+            sound.export(Aud, format='wav')
+        elif point == 9:
+            sound = AudioSegment.from_file(Aud, 'raw')
+            sound.export(Aud, format='wav')
+        elif point == 10:
+            sound = AudioSegment.from_file(Aud, '3gp')
+            sound.export(Aud, format='wav')
+    except:
+        content = "An error occured while reading this file, please check this file or upload another" + str(sys.exc_info()[0])
+        return HttpResponse(content, status=500)
 
 def Translating(AUDIO_FILE):
     r = sr.Recognizer()
