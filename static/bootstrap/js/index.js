@@ -306,7 +306,7 @@ function searchfind (){
 					$("#staticBackdrop").modal("toggle");	
 				})
 				.fail(function(request, status, error){
-					ModalBody.innerText = "Server "+request.responseText;
+					ModalBody.innerText = request.responseText;
 					$("#staticBackdrop").modal("toggle");			
 				})
 				.always(function(jqXHR, textStatus){
