@@ -61,7 +61,7 @@ def hello(req):
                     sound = AudioSegment.from_file(Aud, '3gp')
                     sound.export(Aud, format='wav')
             except:
-                content = "An error occured while reading this file, please check this file or upload another" + sys.exc_info()[0]
+                content = "An error occured while reading this file, please check this file or upload another" + str(sys.exc_info()[0])
                 return HttpResponse(content, status=500)
 #            fs = FileSystemStorage()
 #            filename = fs.save(img_file.name, img_file)
