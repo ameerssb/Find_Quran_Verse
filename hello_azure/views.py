@@ -111,7 +111,7 @@ def AndroidAudio(req):
         if Aud != None:
             filename = Aud.name
             tmp = tempfile.NamedTemporaryFile(delete=True, suffix=".wav")
-            Changin2Wav(Aud,tmp,filename)
+            tmp = Changin2Wav(Aud,tmp,filename)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
             ('file',(filename,Aud.open(),'audio/wav'))
@@ -246,6 +246,7 @@ def Changin2Wav(Aud,tmp,filename):
     except:
         content = "An error occured while reading this file, please check this file or upload another" + str(sys.exc_info()[0])
         return HttpResponse(content, status=500)
+    return tmp
 
 def Translating(AUDIO_FILE):
     r = sr.Recognizer()
