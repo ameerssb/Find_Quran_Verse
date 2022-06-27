@@ -23,6 +23,7 @@ def index(request):
 @csrf_exempt
 def hello(req):
     Aud = None
+    
     if req.method == 'POST':
         try:
             Aud = req.FILES['file']
@@ -36,7 +37,8 @@ def hello(req):
 #            filename = fs.save(img_file.name, img_file)
 #            path = fs.path(filename)
             filename = Aud.name
-            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=os.getcwd())
+            dir = os.getcwd()
+            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=os.path.basename(dir))
             Changin2Wav(Aud,tmp,filename)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
