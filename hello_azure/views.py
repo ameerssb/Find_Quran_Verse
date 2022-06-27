@@ -54,7 +54,7 @@ def hello(req):
                 else:
                     return HttpResponse("an error occured", status=400)
             except :
-                return HttpResponse( "An Error occured while Processing Request", status=500)
+                return HttpResponse( f"An Error occured while Processing Request {sys.exc_info()[1]}", status=500)
 #            except requests.Timeout:
 #                    return HttpResponse( "An Error occured while Processing Request", status=500)
         else:
@@ -213,6 +213,9 @@ def Changin2Wav(Aud,tmp,filename):
     if point == 0:
         return HttpResponse("Can't Process this type of file")
     try:
+        if point == 1:
+            sound = AudioSegment.from_file(Aud, 'wav')
+            sound.export(tmp, format='wav')
         if point == 2:
             sound = AudioSegment.from_file(Aud, 'mp3')
             sound.export(tmp, format='wav')
