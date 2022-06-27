@@ -113,7 +113,7 @@ def AndroidAudio(req):
             pass
         if Aud != None:
             filename = Aud.name
-            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=os.getcwd())
+            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=os.getcwd)
             tmp = Changin2Wav(Aud,tmp,filename)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
@@ -219,7 +219,6 @@ def Changin2Wav(Aud,tmp,filename):
         return HttpResponse("Can't Process this type of file")
     try:
         if point == 1:
-            return HttpResponse("this")
             sound = AudioSegment.from_file(Aud, 'wav')
             sound.export(tmp, format='wav')
         if point == 2:
@@ -250,7 +249,6 @@ def Changin2Wav(Aud,tmp,filename):
             sound = AudioSegment.from_file(Aud, '3gp')
             sound.export(tmp, format='wav')
     except:
-        tmp.close()
         content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()[0]}"
         return HttpResponse(content, status=500)
     return tmp
