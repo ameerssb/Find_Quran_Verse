@@ -42,7 +42,6 @@ def hello(req):
             ('file',(filename,Aud.open(),'audio/wav'))
             ]
             headers = {}
-            return HttpResponse(filename, status = 200)
             try:
                 file = Translating(tmp)
                 response = Processing(file)
