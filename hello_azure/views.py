@@ -8,6 +8,7 @@ import mysql.connector
 import speech_recognition as sr
 from pydub import AudioSegment
 import requests
+import tempfile
 import sys
 import json
 import re
@@ -27,21 +28,35 @@ def hello(req):
         except ValueError:
             pass
         if Aud != None:
-            filename = Aud.name
-            Changin2Wav(Aud,filename)
-            print(filename)
+#            sound = AudioSegment.from_file(Aud, 'mp4')
+#            sound.export(tmp, format='wav')
+#            print(filename)
 #            fs = FileSystemStorage()
 #            filename = fs.save(img_file.name, img_file)
 #            path = fs.path(filename)
+            filename = Aud.name
+            tmp = tempfile.NamedTemporaryFile(delete=True, suffix=".wav")
+            Changin2Wav(Aud,tmp,filename)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
             ('file',(filename,Aud.open(),'audio/wav'))
             ]
             headers = {}
-            file = Translating(Aud)
-            response = Processing(file)
-            json_object = json.dumps(response, ensure_ascii=False)
-            return HttpResponse(json_object, status = 200)
+            try:
+                file = Translating(tmp)
+                response = Processing(file)
+                #response = requests.request("POST", url, headers=headers, files=files, timeout=50)
+                #if response.status_code == 200:
+                json_object = json.dumps(response, ensure_ascii=False)
+                return HttpResponse(json_object, status = 200)
+                if response.status_code == 500:
+                    return HttpResponse( "An Error occured while Processing Request", status=500)
+                else:
+                    return HttpResponse("an error occured", status=400)
+            except :
+                return HttpResponse( "An Error occured while Processing Request", status=500)
+#            except requests.Timeout:
+#                    return HttpResponse( "An Error occured while Processing Request", status=500)
         else:
             return HttpResponse("This File is corrupted", status=500)
     else:
@@ -95,52 +110,15 @@ def AndroidAudio(req):
             pass
         if Aud != None:
             filename = Aud.name
-            point = Changin2Wav(filename)
-            print(filename)
-            if point == 0:
-                return HttpResponse("Can't Process this type of file")
-            try:
-                if point == 2:
-                    sound = AudioSegment.from_file(Aud, 'mp3')
-                    sound.export(Aud, format='wav')
-                elif point == 3:
-                    sound = AudioSegment.from_file(Aud, 'mp4')
-                    sound.export(Aud, format='wav')
-                elif point == 4:
-                    sound = AudioSegment.from_file(Aud, 'm4a')
-                    sound.export(Aud, format='wav')
-                elif point == 5:
-                    sound = AudioSegment.from_file(Aud, 'wma')
-                    sound.export(Aud, format='wav')
-                elif point == 6:
-                    sound = AudioSegment.from_file(Aud, 'flac')
-                    sound.export(Aud, format='wav')
-                elif point == 7:
-                    sound = AudioSegment.from_file(Aud, 'aac')
-                    sound.export(Aud, format='wav')
-                elif point == 8:
-                    sound = AudioSegment.from_file(Aud, 'ogg')
-                    sound.export(Aud, format='wav')
-                elif point == 9:
-                    sound = AudioSegment.from_file(Aud, 'raw')
-                    sound.export(Aud, format='wav')
-                elif point == 10:
-                    sound = AudioSegment.from_file(Aud, '3gp')
-                    sound.export(Aud, format='wav')
-            except:
-                content = {"An error occured while reading this file, please check this file or upload another " + sys.exc_info()[0]}
-                print(filename)
-                return HttpResponse(content, status=500)
-#            fs = FileSystemStorage()
-#            filename = fs.save(img_file.name, img_file)
-#            path = fs.path(filename)
+            tmp = tempfile.NamedTemporaryFile(delete=True, suffix=".wav")
+            Changin2Wav(Aud,tmp,filename)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
             ('file',(filename,Aud.open(),'audio/wav'))
             ]
             headers = {}
             try:
-                file = Translating(Aud)
+                file = Translating(tmp)
                 response = Processing(file)
                 #response = requests.request("POST", url, headers=headers, files=files, timeout=50)
                 #if response.status_code == 200:
@@ -208,7 +186,7 @@ def JsonToString(response):
     data += str(length) + " Results Found"
     return data
 
-def Changin2Wav(Aud,filename):
+def Changin2Wav(Aud,tmp,filename):
     point = 0
     if filename.lower().endswith('wav'):
         point = 1
@@ -237,31 +215,31 @@ def Changin2Wav(Aud,filename):
     try:
         if point == 2:
             sound = AudioSegment.from_file(Aud, 'mp3')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
         elif point == 3:
             sound = AudioSegment.from_file(Aud, 'mp4')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
         elif point == 4:
             sound = AudioSegment.from_file(Aud, 'm4a')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
         elif point == 5:
             sound = AudioSegment.from_file(Aud, 'wma')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
         elif point == 6:
             sound = AudioSegment.from_file(Aud, 'flac')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
         elif point == 7:
             sound = AudioSegment.from_file(Aud, 'aac')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
         elif point == 8:
             sound = AudioSegment.from_file(Aud, 'ogg')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
         elif point == 9:
             sound = AudioSegment.from_file(Aud, 'raw')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
         elif point == 10:
             sound = AudioSegment.from_file(Aud, '3gp')
-            sound.export(Aud, format='wav')
+            sound.export(tmp, format='wav')
     except:
         content = "An error occured while reading this file, please check this file or upload another" + str(sys.exc_info()[0])
         return HttpResponse(content, status=500)
