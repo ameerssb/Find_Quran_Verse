@@ -48,7 +48,9 @@ def hello(req):
             s = 20
             ran = ''.join(random.choices(string.ascii_lowercase + string.digits, k=s))
             tmp = dir + "/"+os.path.basename(k.name)+ "/" + ran + ".wav"
-#            print(tmp)
+            tmp = Aud
+#            
+# print(tmp)
 #            Changin2Wav(Aud,tmp_folder,filename)
             point = 0
             if filename.lower().endswith('wav'):
