@@ -1,4 +1,5 @@
 from os import stat
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -37,18 +38,20 @@ def hello(req):
 #            filename = fs.save(img_file.name, img_file)
 #            path = fs.path(filename)
             dir = os.getcwd()
-            k = tempfile.TemporaryDirectory(dir=dir)
+            k = tempfile.TemporaryDirectory(dir=settings.MEDIA_ROOT)
 #            direc = "../"+os.path.basename(dir) + "/" + os.path.basename(k.name)
 #            print(os.path.basename(k.name))
 #            print(direc)
             filename = Aud.name
-#            tmpp = tempfile.NamedTemporaryFile(suffix=".wav", dir=direc)
+#            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=settings.MEDIA_ROOT)
             import string
             import random
             s = 20
             ran = ''.join(random.choices(string.ascii_lowercase + string.digits, k=s))
-            tmp = dir + "/"+os.path.basename(k.name)+ "/" + ran + ".wav"
-            tmp = Aud
+            ran = k.name + "/" + ran + ".wav"
+            tmp = os.path.join(settings.MEDIA_ROOT, ran)
+#            tmp = os.path.join(settings.BASE_DIR,ran)
+#            tmp = Aud
 #            
 # print(tmp)
 #            Changin2Wav(Aud,tmp_folder,filename)
@@ -86,7 +89,7 @@ def hello(req):
                     sound.export(tmp, format='wav')
                 elif point == 3:
                     sound = AudioSegment.from_file(Aud, 'mp4')
-                    sound.export(tmp, format='wav')
+                    sound.export(os.path.join(settings.MEDIA_ROOT, tmp), format='wav')
                 elif point == 4:
                     sound = AudioSegment.from_file(Aud, 'm4a')
                     sound.export(tmp, format='wav')
