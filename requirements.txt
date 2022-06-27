@@ -5,4 +5,5 @@ numpy
 mysql.connector
 SpeechRecognition
 requests
+ffmpeg-python
 pydub
