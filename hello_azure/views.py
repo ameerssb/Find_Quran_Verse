@@ -112,6 +112,7 @@ def hello(req):
                     sound = AudioSegment.from_file(Aud, '3gp')
                     sound.export(tmp, format='wav')
             except:
+                k.cleanup()
                 content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()[0]}"
                 return HttpResponse(content, status=500)
             url = "https://quranfind.azurewebsites.net/api/quran"
