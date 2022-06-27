@@ -36,9 +36,13 @@ def hello(req):
 #            fs = FileSystemStorage()
 #            filename = fs.save(img_file.name, img_file)
 #            path = fs.path(filename)
-            filename = Aud.name
             dir = os.getcwd()
-            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=os.path.basename(dir))
+            direc = "../"+os.path.basename(dir)
+            k = tempfile.TemporaryDirectory(dir=dir)
+            print(k.name)
+            k.cleanup()
+            filename = Aud.name
+            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=direc)
             Changin2Wav(Aud,tmp,filename)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
