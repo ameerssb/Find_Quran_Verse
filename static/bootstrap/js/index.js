@@ -250,10 +250,10 @@ function search(blob, filename){
 			ModalBody.innerText = test + Length + " Results Found";
 			$("#staticBackdrop").modal("toggle");	
 			})
-			.fail(function(jqXHR, textStatus){
-				ModalBody.innerText = "Server "+textStatus;
-				$("#staticBackdrop").modal("toggle");	
-			})
+			.fail(function(request, status, error){
+				ModalBody.innerText = request.responseText;
+				$("#staticBackdrop").modal("toggle");			
+		})
 			.always(function(jqXHR, textStatus){
 				microphoneButton.classList.remove("visually-hidden");
 
@@ -402,9 +402,9 @@ function searchfindText (){
 					ModalBody.innerText = test + Length + " Results Found";
 					$("#staticBackdrop").modal("toggle");	
 					})
-					.fail(function(jqXHR, textStatus){
-						ModalBody.innerText = "Server "+textStatus;
-						$("#staticBackdrop").modal("toggle");		
+					.fail(function(request, status, error){
+						ModalBody.innerText = request.responseText;
+						$("#staticBackdrop").modal("toggle");			
 					})	
 					.always(function(jqXHR, textStatus){
 						textspin.classList.add("visually-hidden");
