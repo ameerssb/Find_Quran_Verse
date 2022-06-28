@@ -68,7 +68,7 @@ def hello(req):
                 return HttpResponse("Can't Process this type of file")
             try:
                 if point == 1:
-                    fileurl = fileurl
+                    fileurl = Audio
                 if point == 2:
                     sound = AudioSegment.from_file(Audio, 'mp3')
                     sound.export(fileurl, format='wav')
@@ -212,7 +212,7 @@ def AndroidAudio(req):
                 return HttpResponse("Can't Process this type of file")
             try:
                 if point == 1:
-                    fileurl = fileurl
+                    fileurl = Audio
                 if point == 2:
                     sound = AudioSegment.from_file(Audio, 'mp3')
                     sound.export(fileurl, format='wav')
