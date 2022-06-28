@@ -41,8 +41,8 @@ def hello(req):
             audioname +=".wav"
             fileurl = settings.MEDIA_ROOT + "/" + audioname
             fs = FileSystemStorage()
-            fs.save(audioname, Audio)
             fileurl = os.path.join(settings.BASE_DIR,fileurl)
+
             point = 0
             if filename.lower().endswith('wav'):
                 point = 1
@@ -100,7 +100,7 @@ def hello(req):
                     sound = AudioSegment.from_file(Audio, '3gp')
                     sound.export(fileurl, format='wav')
             except:
-                content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()[0]}"
+                content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()}"
                 if fs.exists(fileurl):
                         fs.delete(fileurl)
                 return HttpResponse(content, status=500)
@@ -188,8 +188,6 @@ def AndroidAudio(req):
             audioname +=".wav"
             fileurl = settings.MEDIA_ROOT + "/" + audioname
             fs = FileSystemStorage()
-            fs.save(audioname, Audio)
-            fileurl = os.path.join(settings.BASE_DIR,fileurl)
             point = 0
             if filename.lower().endswith('wav'):
                 point = 1
