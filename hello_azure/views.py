@@ -41,6 +41,8 @@ def hello(req):
             audioname +=".wav"
             fileurl = settings.MEDIA_ROOT + "/" + audioname
             fs = FileSystemStorage()
+            fs.save(audioname, Audio)
+            fileurl = os.path.join(settings.BASE_DIR,fileurl)
             point = 0
             if filename.lower().endswith('wav'):
                 point = 1
@@ -68,7 +70,8 @@ def hello(req):
                 return HttpResponse("Can't Process this type of file")
             try:
                 if point == 1:
-                    fileurl = Audio
+                    sound = AudioSegment.from_file(Audio, 'wav')
+                    sound.export(fileurl, format='wav')
                 if point == 2:
                     sound = AudioSegment.from_file(Audio, 'mp3')
                     sound.export(fileurl, format='wav')
@@ -185,6 +188,8 @@ def AndroidAudio(req):
             audioname +=".wav"
             fileurl = settings.MEDIA_ROOT + "/" + audioname
             fs = FileSystemStorage()
+            fs.save(audioname, Audio)
+            fileurl = os.path.join(settings.BASE_DIR,fileurl)
             point = 0
             if filename.lower().endswith('wav'):
                 point = 1
@@ -212,7 +217,8 @@ def AndroidAudio(req):
                 return HttpResponse("Can't Process this type of file")
             try:
                 if point == 1:
-                    fileurl = Audio
+                    sound = AudioSegment.from_file(Audio, 'wav')
+                    sound.export(fileurl, format='wav')
                 if point == 2:
                     sound = AudioSegment.from_file(Audio, 'mp3')
                     sound.export(fileurl, format='wav')
