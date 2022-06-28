@@ -36,12 +36,6 @@ def hello(req):
             pass
         if Audio != None:
             filename = Audio.name
-            s = 20
-            audioname = ''.join(random.choices(string.ascii_lowercase + string.digits, k=s))
-            fileurl = settings.MEDIA_ROOT + "\\" + audioname
-            fs = FileSystemStorage()
-            fileurl = os.path.join(settings.BASE_DIR,fileurl)
-
             point = 0
             if filename.lower().endswith('wav'):
                 point = 1
@@ -68,40 +62,35 @@ def hello(req):
             if point == 0:
                 return HttpResponse("Can't Process this type of file")
             try:
-                if point == 1:
-                    fileurl = Audio
                 if point == 2:
                     sound = AudioSegment.from_file(Audio, 'mp3')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 3:
                     sound = AudioSegment.from_file(Audio, 'mp4')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 4:
                     sound = AudioSegment.from_file(Audio, 'm4a')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 5:
                     sound = AudioSegment.from_file(Audio, 'wma')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 6:
                     sound = AudioSegment.from_file(Audio, 'flac')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 7:
                     sound = AudioSegment.from_file(Audio, 'aac')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 8:
                     sound = AudioSegment.from_file(Audio, 'ogg')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 9:
                     sound = AudioSegment.from_file(Audio, 'raw')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 10:
                     sound = AudioSegment.from_file(Audio, '3gp')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
             except:
                 content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()}"
-                if point != 1:
-                    if fs.exists(fileurl):
-                            fs.delete(fileurl)
                 return HttpResponse(content, status=500)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
@@ -109,11 +98,7 @@ def hello(req):
             ]
             headers = {}
             try:
-                fileurl += ".wav"
-                file = Translating(fileurl)
-                if point != 1:
-                    if fs.exists(fileurl):
-                            fs.delete(fileurl)
+                file = Translating(Audio)
                 response = Processing(file)
 #                ur = settings.MEDIA_ROOT + "/" + "d60849p72gyuguz3lnfd.wav"
                 #response = requests.request("POST", url, headers=headers, files=files, timeout=50)
@@ -126,9 +111,6 @@ def hello(req):
                 else:
                     return HttpResponse("an error occured", status=400)
             except :
-                if point != 1:
-                    if fs.exists(fileurl):
-                            fs.delete(fileurl)
                 return HttpResponse( f"An Error occured while Processing Request {sys.exc_info()[1]}", status=500)
 #            except requests.Timeout:
 #                    return HttpResponse( "An Error occured while Processing Request", status=500)
@@ -185,11 +167,6 @@ def AndroidAudio(req):
             pass
         if Audio != None:
             filename = Audio.name
-            s = 20
-            audioname = ''.join(random.choices(string.ascii_lowercase + string.digits, k=s))
-            audioname +=".wav"
-            fileurl = settings.MEDIA_ROOT + "/" + audioname
-            fs = FileSystemStorage()
             point = 0
             if filename.lower().endswith('wav'):
                 point = 1
@@ -216,40 +193,35 @@ def AndroidAudio(req):
             if point == 0:
                 return HttpResponse("Can't Process this type of file")
             try:
-                if point == 1:
-                    fileurl = Aud
                 if point == 2:
                     sound = AudioSegment.from_file(Audio, 'mp3')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 3:
                     sound = AudioSegment.from_file(Audio, 'mp4')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 4:
                     sound = AudioSegment.from_file(Audio, 'm4a')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 5:
                     sound = AudioSegment.from_file(Audio, 'wma')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 6:
                     sound = AudioSegment.from_file(Audio, 'flac')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 7:
                     sound = AudioSegment.from_file(Audio, 'aac')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 8:
                     sound = AudioSegment.from_file(Audio, 'ogg')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 9:
                     sound = AudioSegment.from_file(Audio, 'raw')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
                 elif point == 10:
                     sound = AudioSegment.from_file(Audio, '3gp')
-                    sound.export(fileurl+".wav", format='wav')
+                    sound.export(Audio, format='wav')
             except:
-                content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()[0]}"
-                if point != 1:
-                    if fs.exists(fileurl):
-                            fs.delete(fileurl)
+                content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()}"
                 return HttpResponse(content, status=500)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
@@ -257,11 +229,7 @@ def AndroidAudio(req):
             ]
             headers = {}
             try:
-                fileurl += ".wav"
-                file = Translating(fileurl)
-                if point != 1:
-                    if fs.exists(fileurl):
-                            fs.delete(fileurl)
+                file = Translating(Audio)
                 response = Processing(file)
                 json_object = JsonToString(response)
                 return HttpResponse(json_object, status = 200)
@@ -270,9 +238,6 @@ def AndroidAudio(req):
                 else:
                     return HttpResponse("an error occured", status=400)
             except :
-                if point != 1:
-                    if fs.exists(fileurl):
-                            fs.delete(fileurl)
                 return HttpResponse( "An Error occured while Processing Request", status=500)
 #            except requests.Timeout:
 #                    return HttpResponse( "An Error occured while Processing Request", status=500)
