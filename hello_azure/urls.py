@@ -8,8 +8,8 @@ urlpatterns = [
     path('hello', views.hello, name='hello'),
     path('translator', views.translator, name="translator"),
     path('androidAudio', views.AndroidAudio, name="AndroidAudio"),
-    path('androidText', views.AndroidText, name="androidText")
-]
+    path('androidText', views.AndroidText, name="androidText"),
+] + static(settings.MEDIA_URL, document_root =settings.MEDIA_ROOT)
 
 #if settings.DEBUG:
 #   urlpatterns = static(settings.MEDIA_URL, document_root =settings.MEDIA_ROOT)

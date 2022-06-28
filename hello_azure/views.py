@@ -2,6 +2,7 @@ from os import stat
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.core.files.storage import FileSystemStorage
 from django.views.decorators.csrf import csrf_exempt
 import pandas as pd
 import numpy as np
@@ -14,6 +15,9 @@ import tempfile
 import sys
 import json
 import re
+import string
+import random
+
 pd.options.mode.chained_assignment = None
 
 def index(request):
@@ -23,38 +27,20 @@ def index(request):
 
 @csrf_exempt
 def hello(req):
-    Aud = None
+    Audio = None
     
     if req.method == 'POST':
         try:
-            Aud = req.FILES['file']
+            Audio = req.FILES['file']
         except ValueError:
             pass
-        if Aud != None:
-#            sound = AudioSegment.from_file(Aud, 'mp4')
-#            sound.export(tmp, format='wav')
-#            print(filename)
-#            fs = FileSystemStorage()
-#            filename = fs.save(img_file.name, img_file)
-#            path = fs.path(filename)
-            dir = os.getcwd()
-            k = tempfile.TemporaryDirectory(dir=settings.MEDIA_ROOT)
-#            direc = "../"+os.path.basename(dir) + "/" + os.path.basename(k.name)
-#            print(os.path.basename(k.name))
-#            print(direc)
-            filename = Aud.name
-#            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=settings.MEDIA_ROOT)
-            import string
-            import random
+        if Audio != None:
+            filename = Audio.name
             s = 20
-            ran = ''.join(random.choices(string.ascii_lowercase + string.digits, k=s))
-            ran = k.name + "/" + ran + ".wav"
-            tmp = os.path.join(settings.MEDIA_ROOT, ran)
-#            tmp = os.path.join(settings.BASE_DIR,ran)
-#            tmp = Aud
-#            
-# print(tmp)
-#            Changin2Wav(Aud,tmp_folder,filename)
+            audioname = ''.join(random.choices(string.ascii_lowercase + string.digits, k=s))
+            audioname +=".wav"
+            fileurl = settings.MEDIA_ROOT + "/" + audioname
+            fs = FileSystemStorage()
             point = 0
             if filename.lower().endswith('wav'):
                 point = 1
@@ -82,50 +68,53 @@ def hello(req):
                 return HttpResponse("Can't Process this type of file")
             try:
                 if point == 1:
-                    sound = AudioSegment.from_file(Aud, 'wav')
-                    sound.export(tmp, format='wav')
+                    fileurl = fileurl
                 if point == 2:
-                    sound = AudioSegment.from_file(Aud, 'mp3')
-                    sound.export(tmp, format='wav')
+                    sound = AudioSegment.from_file(Audio, 'mp3')
+                    sound.export(fileurl, format='wav')
                 elif point == 3:
-                    sound = AudioSegment.from_file(Aud, 'mp4')
-                    sound.export(os.path.join(settings.MEDIA_ROOT, tmp), format='wav')
+                    sound = AudioSegment.from_file(Audio, 'mp4')
+                    sound.export(fileurl, format='wav')
                 elif point == 4:
-                    sound = AudioSegment.from_file(Aud, 'm4a')
-                    sound.export(tmp, format='wav')
+                    sound = AudioSegment.from_file(Audio, 'm4a')
+                    sound.export(fileurl, format='wav')
                 elif point == 5:
-                    sound = AudioSegment.from_file(Aud, 'wma')
-                    sound.export(tmp, format='wav')
+                    sound = AudioSegment.from_file(Audio, 'wma')
+                    sound.export(fileurl, format='wav')
                 elif point == 6:
-                    sound = AudioSegment.from_file(Aud, 'flac')
-                    sound.export(tmp, format='wav')
+                    sound = AudioSegment.from_file(Audio, 'flac')
+                    sound.export(fileurl, format='wav')
                 elif point == 7:
-                    sound = AudioSegment.from_file(Aud, 'aac')
-                    sound.export(tmp, format='wav')
+                    sound = AudioSegment.from_file(Audio, 'aac')
+                    sound.export(fileurl, format='wav')
                 elif point == 8:
-                    sound = AudioSegment.from_file(Aud, 'ogg')
-                    sound.export(tmp, format='wav')
+                    sound = AudioSegment.from_file(Audio, 'ogg')
+                    sound.export(fileurl, format='wav')
                 elif point == 9:
-                    sound = AudioSegment.from_file(Aud, 'raw')
-                    sound.export(tmp, format='wav')
+                    sound = AudioSegment.from_file(Audio, 'raw')
+                    sound.export(fileurl, format='wav')
                 elif point == 10:
-                    sound = AudioSegment.from_file(Aud, '3gp')
-                    sound.export(tmp, format='wav')
+                    sound = AudioSegment.from_file(Audio, '3gp')
+                    sound.export(fileurl, format='wav')
             except:
-                k.cleanup()
                 content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()[0]}"
+                if fs.exists(fileurl):
+                        fs.delete(fileurl)
                 return HttpResponse(content, status=500)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
-            ('file',(filename,Aud.open(),'audio/wav'))
+            ('file',(filename,Audio.open(),'audio/wav'))
             ]
             headers = {}
             try:
-                file = Translating(tmp)
+                file = Translating(fileurl)
+                if fs.exists(fileurl):
+                        fs.delete(fileurl)
                 response = Processing(file)
+#                ur = settings.MEDIA_ROOT + "/" + "d60849p72gyuguz3lnfd.wav"
                 #response = requests.request("POST", url, headers=headers, files=files, timeout=50)
                 #if response.status_code == 200:
-                k.cleanup()
+#                k.cleanup()
                 json_object = json.dumps(response, ensure_ascii=False)
                 return HttpResponse(json_object, status = 200)
                 if response.status_code == 500:
@@ -133,7 +122,8 @@ def hello(req):
                 else:
                     return HttpResponse("an error occured", status=400)
             except :
-                k.cleanup()
+                if fs.exists(fileurl):
+                        fs.delete(fileurl)
                 return HttpResponse( f"An Error occured while Processing Request {sys.exc_info()[1]}", status=500)
 #            except requests.Timeout:
 #                    return HttpResponse( "An Error occured while Processing Request", status=500)
@@ -185,25 +175,86 @@ def AndroidAudio(req):
     Aud = None
     if req.method == 'POST':
         try:
-            Aud = req.FILES['file']
+            Audio = req.FILES['file']
         except ValueError:
             pass
-        if Aud != None:
-            filename = Aud.name
-            tmp = tempfile.NamedTemporaryFile(suffix=".wav", dir=os.getcwd)
-            tmp = Changin2Wav(Aud,tmp,filename)
+        if Audio != None:
+            filename = Audio.name
+            s = 20
+            audioname = ''.join(random.choices(string.ascii_lowercase + string.digits, k=s))
+            audioname +=".wav"
+            fileurl = settings.MEDIA_ROOT + "/" + audioname
+            fs = FileSystemStorage()
+            point = 0
+            if filename.lower().endswith('wav'):
+                point = 1
+            elif filename.lower().endswith('mp3'):
+                point = 2
+            elif filename.lower().endswith('mp4'):
+                point = 3
+            elif filename.lower().endswith('m4a'):
+                point = 4
+            elif filename.lower().endswith('wma'):
+                point = 5
+            elif filename.lower().endswith('flac'):
+                point = 6
+            elif filename.lower().endswith('aac'):
+                point = 7
+            elif filename.lower().endswith('ogg'):
+                point = 8
+            elif filename.lower().endswith('raw'):
+                point = 9
+            elif filename.lower().endswith('3gp'):
+                point = 10
+            else:
+                point = 0
+            if point == 0:
+                return HttpResponse("Can't Process this type of file")
+            try:
+                if point == 1:
+                    fileurl = fileurl
+                if point == 2:
+                    sound = AudioSegment.from_file(Audio, 'mp3')
+                    sound.export(fileurl, format='wav')
+                elif point == 3:
+                    sound = AudioSegment.from_file(Audio, 'mp4')
+                    sound.export(fileurl, format='wav')
+                elif point == 4:
+                    sound = AudioSegment.from_file(Audio, 'm4a')
+                    sound.export(fileurl, format='wav')
+                elif point == 5:
+                    sound = AudioSegment.from_file(Audio, 'wma')
+                    sound.export(fileurl, format='wav')
+                elif point == 6:
+                    sound = AudioSegment.from_file(Audio, 'flac')
+                    sound.export(fileurl, format='wav')
+                elif point == 7:
+                    sound = AudioSegment.from_file(Audio, 'aac')
+                    sound.export(fileurl, format='wav')
+                elif point == 8:
+                    sound = AudioSegment.from_file(Audio, 'ogg')
+                    sound.export(fileurl, format='wav')
+                elif point == 9:
+                    sound = AudioSegment.from_file(Audio, 'raw')
+                    sound.export(fileurl, format='wav')
+                elif point == 10:
+                    sound = AudioSegment.from_file(Audio, '3gp')
+                    sound.export(fileurl, format='wav')
+            except:
+                content = f"An error occured while reading this file, please check this file or upload another{sys.exc_info()[0]}"
+                if fs.exists(fileurl):
+                        fs.delete(fileurl)
+                return HttpResponse(content, status=500)
             url = "https://quranfind.azurewebsites.net/api/quran"
             files=[
-            ('file',(filename,Aud.open(),'audio/wav'))
+            ('file',(filename,Audio.open(),'audio/wav'))
             ]
             headers = {}
             try:
-                file = Translating(tmp)
+                file = Translating(fileurl)
+                if fs.exists(fileurl):
+                        fs.delete(fileurl)
                 response = Processing(file)
-                #response = requests.request("POST", url, headers=headers, files=files, timeout=50)
-                #if response.status_code == 200:
-#                json_object = json.dumps(response, ensure_ascii=False)
-                tmp.close()
                 json_object = JsonToString(response)
                 return HttpResponse(json_object, status = 200)
                 if response.status_code == 500:
@@ -211,7 +262,8 @@ def AndroidAudio(req):
                 else:
                     return HttpResponse("an error occured", status=400)
             except :
-                tmp.close()
+                if fs.exists(fileurl):
+                        fs.delete(fileurl)
                 return HttpResponse( "An Error occured while Processing Request", status=500)
 #            except requests.Timeout:
 #                    return HttpResponse( "An Error occured while Processing Request", status=500)
