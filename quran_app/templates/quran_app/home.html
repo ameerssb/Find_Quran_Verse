@@ -1,0 +1,420 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="msapplication-tap-highlight" content="no">
+  <title>Quranic Verse Finder</title>
+    <link rel="icon"href="{% static 'images/index2.png' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/recorderstyle.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+<style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>  
+</head>
+ <body>
+  <main>
+    <div class="container">
+      <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+<!--          <img src="{% static 'images/index2.png' %}" alt="Logo" width="50" height="32"/> -->
+          <span class="fs-4">Quran Verse Finder</span>
+        </a>
+  
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+          <li><a href="/" class="nav-link px-2 link-dark">Help</a></li>
+          <li><a href="/" class="nav-link px-2 link-dark">Donate</a></li>
+          <li><a href="/" class="nav-link px-2 link-dark">Contact</a></li>
+          <li><a href="/" class="nav-link px-2 link-dark">About</a></li>
+        </ul>
+  
+        <div class="col-md-3 text-end">
+          <button type="button" class="btn btn-outline-primary me-2">Login</button>
+          <button type="button" class="btn btn-primary">Sign-up</button>
+        </div>
+      </header>
+    </div> 
+    <div class="container">
+      <div>
+        <div class="rounded">
+          <div class="mx-auto">
+            <nav>
+              <div class="nav nav-tabs mb-1" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Record Audio</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Type Text</button>
+                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Audio File</button>
+              </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="text-center">
+                  <img class="d-block mx-auto mb-4" src="{% static 'images/index2.png' %}" alt="Logo" width="192" height="192"/>
+                  <h1 class="display-6 fw-bold text-primary">Quranic Verse Finder</h1>            
+                </div>
+                <div class="col-md-6 mx-auto text-center mt-4">
+                  <label for="name" class="form-label fw-bold fs-5">Please Tap on the Mic to Start Reciting</label>
+                  {% csrf_token %}
+                  <div class="mx-auto my-5 align-items-center justify-content-center d-flex">
+                        <i class="start-recording-button fa fa-microphone" aria-hidden="true"></i>
+			<div class="spinner-border text-primary visually-hidden" role="status">
+			  <span id="micspin" class="spinner-border-sm visually-hidden" role="status" aria-hidden="true">Loading...</span>
+			</div>
+                        <div class="recording-contorl-buttons-container hide">
+                            <i class="cancel-recording-button fa fa-times-circle-o" aria-hidden="true"></i>
+                            <div class="recording-elapsed-time">
+                                <i class="red-recording-dot fa fa-circle" aria-hidden="true"></i>
+                                <p class="elapsed-time"></p>
+                            </div>
+                            <i class="stop-recording-button fa fa-stop-circle-o" aria-hidden="true"></i>
+                        </div>
+                  </div>                
+              </div>
+                </div>
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="text-center">
+                  <img class="d-block mx-auto mb-4" src="{% static 'images/index2.png' %}" alt="Azure Logo" width="192" height="192"/>
+                  <h1 class="display-6 fw-bold text-primary">Quranic Verse Finder</h1>            
+                </div>
+                  <div class="col-md-8 mx-auto text-center mt-4">
+                      <label for="name" class="form-label fw-bold fs-5">Please Type an Arabic Text of a Verse</label>
+                      <div class="col-md-6 mx-auto my-4">
+                          <input type="text" class="form-control" id="Text" name="Text">
+                          <div id="invalidtext" class="feedback text-danger visually-hidden">
+                            Please type an Arabic Text of The Quran
+                          </div>
+                        </div>            
+                      <div class="gap-2 d-sm-flex justify-content-sm-center my-4">
+                        <button onclick="searchfindText()" id="textbutton" class="btn btn-primary">
+                          <span id="textspin" class="spinner-border spinner-border-sm visually-hidden" role="status" aria-hidden="true"></span>
+                          Find Verse
+                      </button>
+                      </div>            
+                  </div>
+              </div>
+              <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div class="text-center">
+                  <img class="d-block mx-auto mb-4" src="{% static 'images/index2.png' %}" alt="Azure Logo" width="192" height="192"/>
+                  <h1 class="display-6 fw-bold text-primary">Quranic Verse Finder</h1>            
+                </div>
+                  <div class="col-md-8 mx-auto text-center mt-4">
+                      <label for="name" class="form-label fw-bold fs-5">Please Insert an audio File of Verse</label>
+                        <div class="col-md-6 mx-auto my-4">
+                          <input type="file" id="file" name="file" accept="audio/*" class="form-control">
+                          <div id="invalidfile" class="feedback text-danger visually-hidden">
+                            Please Input an Audio File
+                          </div>
+                        </div>
+                        <div class="gap-2 d-sm-flex justify-content-sm-center my-4">
+                          <button onclick="searchfind()" id="audiobutton" class="btn btn-primary">
+              			        <span id="filespin" class="spinner-border spinner-border-sm visually-hidden" role="status" aria-hidden="true"></span>
+			                      Find Verse
+                    			</button>
+                        </div>
+                  </div>
+              </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Result Suggestion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="text-center" id="r_text">Result for Text:</div>                    
+                    <div id="ModalBody" class="row container-fluid">
+                    </div>  
+                  </div>
+                  <div class="modal-footer d-flex justify-content-between">
+                    <div>
+                      <h5 class="text-danger" id="count"></h5>
+                    </div>
+                    <div>
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+          </div>              
+        </div>
+      </div>
+      <footer class="pt-5 my-5 text-muted border-top text-center">
+          Created by Bature Dev &middot; &copy; 2023
+      </footer>        
+    </div>
+</main>
+    <script src="{% static 'bootstrap/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/recorder.js' %}"></script>
+    <script src="{% static 'bootstrap/js/index.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/cheatsheet.js' %}"></script>
+    <script>
+      csrf = $('input[name="csrfmiddlewaretoken"]').val();
+      var ModalBody = document.getElementById("ModalBody");
+      var Key = document.getElementById("ModalBodyKey");
+      var Value = document.getElementById("ModalBodyValue");
+      var arabicAlphabetDigits = /[\u0600-\u06FF]/;
+      var AlphabetDigits = /[a-zA-Z0-9]/;
+      function search(blob, filename){
+        var form=new FormData();
+        form.append("file",blob, filename);
+        form.append("csrfmiddlewaretoken",csrf);            
+        $.ajax({
+        url: "/audiotranslator/",
+        method: "POST",
+        processData: false,
+        mimeType: "multipart/form-data",
+        dataType:"json",
+        contentType: false,
+        data: form,
+        async: true,
+        cache: false,
+        timeout: 200000           
+        })
+        .done(function(data){
+          FunctionDone(data);
+        })
+        .fail(function(request, status, error){
+          ModalBody.innerText = request.responseText;
+          $("#staticBackdrop").modal("toggle");			
+      })
+        .always(function(jqXHR, textStatus){
+          microphoneButton.classList.remove("visually-hidden");
+
+          spinner.classList.add("visually-hidden");
+        })
+      }
+
+      function searchfind (){
+        var invalidText = document.getElementById("invalidfile")
+        var invalid = document.getElementById("file");
+        if (!(invalidText.classList.contains("visually-hidden"))){
+          invalidText.classList.add("visually-hidden");
+        }
+        if(invalid.value.length == 0){
+          invalidText.classList.remove("visually-hidden");
+        }
+        else if(invalidText.classList.contains("visually-hidden")) {
+          var button = document.getElementById("audiobutton");
+          var textspin = document.getElementById("filespin")
+          button.disabled = true; 
+        //	button.innerText = "Loading..."; 
+          textspin.classList.remove("visually-hidden");
+          var form = new FormData();
+          var files = document.getElementById("file").files;
+          var file = files[0];
+          form.append("file", file, file.name);
+          form.append("csrfmiddlewaretoken",csrf);          
+          $.ajax({
+          url: "/audiotranslator/",
+          method: "POST",
+          processData: false,
+          mimeType: "multipart/form-data",
+          contentType: false,
+          data: form,
+          dataType:"json",
+          async: true,
+          cache: false,
+          timeout: 200000
+        })
+          .done(function(data){
+            FunctionDone(data);
+          })
+          .fail(function(request, status, error){
+            ModalBody.innerText = request.responseText;
+            $("#staticBackdrop").modal("toggle");			
+          })
+          .always(function(jqXHR, textStatus){
+            textspin.classList.add("visually-hidden");
+            //button.innerText = "Find Verse"; 
+            button.disabled = false;								
+
+        })
+          }	
+          }
+
+      $("#Text").on("keypress", function (event) {
+        var invalidText = document.getElementById("invalidtext");
+        var invalid = document.getElementById("Text");
+        var key = String.fromCharCode(event.which);
+
+        if (arabicAlphabetDigits.test(key) && arabicAlphabetDigits.test(invalid.value)) {
+          if (!(invalidText.classList.contains("visually-hidden"))){
+            invalidText.classList.add("visually-hidden");
+          }
+        }
+        else if (arabicAlphabetDigits.test(key)) {
+          if (!(invalidText.classList.contains("visually-hidden"))){
+            invalidText.classList.add("visually-hidden");
+          }
+        }
+        else if(AlphabetDigits.test(invalid.value) == true){
+          invalidText.classList.remove("visually-hidden");
+        }
+        else if(key==' '){
+          if (!(invalidText.classList.contains("visually-hidden"))){
+            invalidText.classList.add("visually-hidden");
+          }
+        }
+        else{
+          invalidText.classList.remove("visually-hidden");
+        }
+        });
+
+      $('#arabicCheck').on("paste", function (event) {
+        var invalidText = document.getElementById("invalidtext");
+        var invalid = document.getElementById("Text");
+        var key = String.fromCharCode(event.which);
+          if (arabicAlphabetDigits.test(invalid.value)) {
+            if (!(invalidText.classList.contains("visually-hidden"))){
+              invalidText.classList.add("visually-hidden");
+            }
+          }else{
+            invalidText.classList.remove("visually-hidden");
+          }
+
+        });
+
+      function searchfindText (){
+          var invalid = document.getElementById("Text");
+          var invalidText = document.getElementById("invalidtext");
+          if (!(invalidText.classList.contains("visually-hidden"))){
+            invalidText.classList.add("visually-hidden");
+          }	
+          if(invalid.value.length == 0 || AlphabetDigits.test(invalid.value) == true){
+            invalidText.classList.remove("visually-hidden");
+          }
+          else if(invalidText.classList.contains("visually-hidden")) {
+            var button = document.getElementById("textbutton");
+            var textspin = document.getElementById("textspin")	
+            button.disabled = true;
+        //		button.innerText = "Loading..."; 
+            textspin.classList.remove("visually-hidden");
+            var form = new FormData();
+            form.append("arabic", $('#Text').val());
+            form.append("csrfmiddlewaretoken",csrf);            
+            $.ajax({
+            url: "/texttranslator/",
+            method: "POST",
+            processData: false,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            dataType:"json",
+            data: form,
+            async: true,
+            cache: false,
+            timeout: 200000           
+          })
+            .done(function(data){
+              FunctionDone(data);
+            })
+            .fail(function(request, status, error){
+              ModalBody.innerText = request.responseText;
+              $("#staticBackdrop").modal("toggle");			
+            })	
+            .always(function(jqXHR, textStatus){
+              textspin.classList.add("visually-hidden");
+              //button.innerText = "Find Verse"; 
+              button.disabled = false;								
+            })			
+            }
+        }
+
+      function FunctionDone(data){
+          const x = data.response;
+          if(data.status == 200){
+            // console.log(Object.values.length);
+            // console.log(x);
+            var head = document.getElementById("staticBackdropLabel");
+            head.innerHTML = 'Result Suggestion';
+            head.classList.add("modal-title","text-dark");
+            document.getElementById("r_text").innerHTML = 'Result for Text:';
+            const trans = data.translation;
+            ModalBody.innerHTML = '';
+            var add1 = document.createElement("div");
+            add1.classList.add("text-success","text-center","pb-3");
+            add1.innerHTML = trans;
+            ModalBody.append(add1);
+            Length = Object.keys(x['Chapter Number']).length;
+            for(let i = 0; i<Length; i++){
+              for (const key of Object.keys(x)){
+                if(key == 'Chapter Name'){
+                  var add0 = document.createElement("div");
+                  add0.classList.add("col-sm-1");
+                  var add1 = document.createElement("div");
+                  add1.classList.add("text-primary","col-sm-4");
+                  var add2 = document.createElement("div");
+                  add2.classList.add("text-secondary","col-sm-7");
+                  add0.innerHTML = i+1;
+                  add1.innerHTML = key + ":";
+                  add2.innerHTML = x[key][i+1];
+                  ModalBody.append(add0,add1,add2);
+                }
+                else if(key == "Arabic Text"){
+                  var add0 = document.createElement("div");
+                  add0.classList.add("col-sm-1");
+                  var add1 = document.createElement("div");
+                  add1.classList.add("text-primary","col-sm-4","pb-3");
+                  var add2 = document.createElement("div");
+                  add2.classList.add("text-secondary","col-sm-7","pb-3");
+                  add0.innerHTML = " ";
+                  add1.innerHTML = key + ":";
+                  add2.innerHTML = x[key][i+1];
+                  ModalBody.append(add0,add1,add2);
+                }
+                else{
+                  var add0 = document.createElement("div");
+                  add0.classList.add("col-sm-1");
+                  var add1 = document.createElement("div");
+                  add1.classList.add("text-primary","col-sm-4")
+                  var add2 = document.createElement("div");
+                  add2.classList.add("text-secondary","col-sm-7")
+                  add0.innerHTML = " ";
+                  add1.innerHTML = key + ":";
+                  add2.innerHTML = x[key][i+1];
+                  ModalBody.append(add0,add1,add2);
+                }
+              }
+            }
+            var add = document.getElementById("count");
+            add.innerHTML = '';
+            add.innerHTML = Length + " Results Found";
+          $("#staticBackdrop").modal("toggle");	
+        }
+          else{
+            var head = document.getElementById("staticBackdropLabel");
+            head.innerHTML = 'Error';
+            head.classList.add("text-danger");
+            document.getElementById("r_text").innerHTML = '';            
+            var add = document.getElementById("count");
+            add.innerHTML = '';
+            ModalBody.innerHTML = '';
+            ModalBody.innerHTML = data.response;
+            $("#staticBackdrop").modal("toggle");			
+          }
+        }
+    </script>
+</body>
+
+</html>

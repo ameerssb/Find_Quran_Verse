@@ -1,5 +1,5 @@
 """
-WSGI config for quickstartproject project.
+WSGI config for QuranVerseFind project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,7 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-settings_module = 'quickstartproject.production' if 'WEBSITE_HOSTNAME' in os.environ else 'quickstartproject.settings'
+settings_module = 'QuranVerseFind.production' if 'WEBSITE_HOSTNAME' in os.environ else 'QuranVerseFind.settings'
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
 application = get_wsgi_application()
