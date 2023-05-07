@@ -1,0 +1,180 @@
+.audio-recording-container {
+    /* view port height*/
+    /*targeting Chrome & Safari*/
+    display: -webkit-flex;
+    /*targeting IE10*/
+    display: -ms-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*horizontal centering*/
+    align-items: center;
+}
+.start-recording-button {
+    font-size: 70px;
+    color: #0d6efd;
+    cursor: pointer;
+    opacity: 1;
+    margin-bottom: 30px;
+}
+.start-recording-button:hover {
+    opacity: .5;
+}
+.recording-contorl-buttons-container {
+    /*targeting Chrome & Safari*/
+    display: -webkit-flex;
+    /*targeting IE10*/
+    display: -ms-flex;
+    display: flex;
+    justify-content: space-evenly;
+    /*horizontal centering*/
+    align-items: center;
+    width: 334px;
+    margin-bottom: 30px;
+}
+.cancel-recording-button,
+.stop-recording-button {
+    font-size: 70px;
+    cursor: pointer;
+}
+.cancel-recording-button {
+    color: red;
+    opacity: 0.7;
+}
+.cancel-recording-button:hover {
+    color: rgb(206, 4, 4);
+}
+.stop-recording-button {
+    color: #33cc33;
+    opacity: 0.7;
+}
+.stop-recording-button:hover {
+    color: #27a527;
+}
+.recording-elapsed-time {
+    /*targeting Chrome & Safari*/
+    display: -webkit-flex;
+    /*targeting IE10*/
+    display: -ms-flex;
+    display: flex;
+    justify-content: center;
+    /*horizontal centering*/
+    align-items: center;
+}
+.red-recording-dot {
+    font-size: 25px;
+    color: red;
+    margin-right: 12px;
+    /*transitions with Firefox, IE and Opera Support browser support*/
+    animation-name: flashing-recording-dot;
+    -webkit-animation-name: flashing-recording-dot;
+    -moz-animation-name: flashing-recording-dot;
+    -o-animation-name: flashing-recording-dot;
+    animation-duration: 2s;
+    -webkit-animation-duration: 2s;
+    -moz-animation-duration: 2s;
+    -o-animation-duration: 2s;
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
+}
+/* The animation code */
+@keyframes flashing-recording-dot {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-webkit-keyframes flashing-recording-dot {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-moz-keyframes flashing-recording-dot {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-o-keyframes flashing-recording-dot {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.elapsed-time {
+    font-size: 32px;
+}
+.recording-contorl-buttons-container.hide {
+    display: none;
+}
+/* The animation code */
+@keyframes blinking-dot {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/* The animation code */
+@-webkit-keyframes blinking-dot {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/* The animation code */
+@-moz-keyframes blinking-dot {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+/* The animation code */
+@-o-keyframes blinking-dot {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
