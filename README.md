@@ -1,4 +1,4 @@
-The voice-based Quran search application is a user-friendly and innovative tool designed to assist individuals in finding specific verses from the Quran using voice recognition technology. It offers a convenient and efficient way to search for and access relevant Quranic verses by simply speaking into the device or computer microphone.
+The Quran Verse Finder is a voice-based Quran search application is a user-friendly and innovative tool designed to assist individuals in finding specific verses from the Quran using voice recognition technology. It offers a convenient and efficient way to search for and access relevant Quranic verses by simply speaking into the device or computer microphone, inputting audio file or even typing the text in arabic.
 
 Key Features:
 
